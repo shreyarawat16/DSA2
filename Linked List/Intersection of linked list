@@ -1,0 +1,47 @@
+https://leetcode.com/problems/intersection-of-two-linked-lists/submissions/1314213252/
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if(headA== headB){
+            return headA;
+            
+        }
+        int lenA=0, lenB=0;
+        ListNode* tempA= headA, *tempB= headB;
+        while(tempA!=NULL){
+            lenA++;
+            tempA= tempA->next;
+        }
+        while(tempB!=NULL){
+            lenB++;
+            tempB= tempB->next;
+        }
+        if(lenB> lenA){
+        while(lenB> lenA){
+            headB= headB->next;
+            lenB--;
+        }
+        }
+        else if(lenA> lenB){
+          while(lenA> lenB){
+            headA= headA->next;
+            lenA--;
+        }
+        }
+        if(headA== headB){
+            return headA;
+            
+        }
+        ListNode* ans=NULL;
+        while(headA && headB){
+            headA= headA->next;
+            headB= headB->next;
+            if(headA== headB){
+                ans= headA;
+                break;
+            }
+        }
+        return ans;
+    }
+};
