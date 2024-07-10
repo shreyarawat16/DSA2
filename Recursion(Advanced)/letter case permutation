@@ -1,0 +1,35 @@
+https://leetcode.com/problems/letter-case-permutation/
+
+class Solution {
+public:
+char caseChange(char ch){
+    if(ch>='A' && ch<='Z') {
+        return ch+32;
+    }
+    else {
+        return ch-32;
+    }
+}
+void solve(int ind, string s, vector<string>& ans, string str){
+    if(ind>= s.size()){
+        ans.push_back(str);
+        return;
+    }
+    if(s[ind]>='0' && s[ind]<='9'){
+        solve(ind+1, s, ans, str+s[ind]);
+    }
+    else{
+    //without case change
+    solve(ind+1, s, ans, str+ s[ind]);
+    //with case change
+    solve(ind+1, s, ans, str+ caseChange(s[ind]));
+}
+}
+    vector<string> letterCasePermutation(string s) {
+        vector<string> ans;
+        string str;
+        int i=0;
+        solve(i, s, ans, str);
+        return ans;
+    }
+};
