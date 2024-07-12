@@ -1,0 +1,63 @@
+https://www.geeksforgeeks.org/problems/rat-in-a-maze-problem/1
+
+// User function template for C++
+
+class Solution{
+    public:
+    bool isSafe(int row, int col,  vector<vector<int>> &board, int n, vector<vector<int>>& vis){
+        if(row>=0 && row<n && col>=0 && col<n && !vis[row][col] && board[row][col]==1){
+            return true;
+        }
+        else{
+        return false;
+
+}
+}
+    void solve(int row, int col, vector<vector<int>> &board, int n, vector<string>& ans, string path,
+    vector<vector<int>>& vis){
+        //base case
+        vis[row][col]=1;
+        if(row==n-1 && col==n-1){
+            ans.push_back(path);
+            return ;
+        }
+        //check down
+        if(isSafe(row+1, col, board, n, vis)){
+            vis[row+1][col]=1;
+            solve(row+1, col, board, n, ans, path+'D', vis);
+              vis[row+1][col]=0;
+        }
+        //check up
+        if(isSafe(row-1, col, board, n, vis)){
+            vis[row-1][col]=1;
+            solve(row-1, col, board, n, ans, path+'U', vis);
+              vis[row-1][col]=0;
+        }
+        //check right
+        if(isSafe(row, col+1, board, n, vis)){
+            vis[row][col+1]=1;
+            solve(row, col+1, board, n, ans, path+'R', vis);
+              vis[row][col+1]=0;
+        }
+        //check left
+        if(isSafe(row, col-1, board,n, vis)){
+            vis[row][col-1]=1;
+            solve(row, col-1, board, n, ans, path+'L', vis);
+              vis[row][col-1]=0;
+        }
+      return;
+    }
+    vector<string> findPath(vector<vector<int>> &board, int n) {
+         vector<string> ans;
+       string result="";
+        if(board[0][0]==0){
+            return ans;
+        }
+      vector<vector<int>> vis(n, vector<int>(n,0));
+
+        solve(0,0,board, n, ans, result, vis);
+        return ans;
+    }
+};
+
+    
