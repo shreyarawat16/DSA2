@@ -1,0 +1,63 @@
+https://leetcode.com/problems/n-queens/submissions/1321751805/
+
+class Solution {
+public:
+void addans(vector<vector<char>>& board, vector<vector<string>>& ans, int n){
+    vector<string> temp;
+for(int i=0; i<n; i++){
+    string out="";
+    for(int j=0; j<n; j++){
+        out.push_back(board[i][j]);
+    }
+    temp.push_back(out);
+}
+ans.push_back(temp);
+}
+bool isSafe(int row, int col, vector<vector<char>>& board, int n){
+    int x=row, y=col;
+    //for same column
+    while(x>=0){
+    if(board[x][y]=='Q'){
+        return false;
+    }
+    x--;
+    }
+    //upper left diagnol
+    x=row;
+    while(x>=0 && y>=0){
+        if(board[x][y]=='Q'){
+            return false;
+        }
+        x--, y--;
+    }
+    //upper right diagnol
+    x=row, y=col;
+    while(x>=0 && y<n){
+        if(board[x][y]=='Q'){
+            return false;
+        }
+        x--, y++;
+    }
+    return true;
+}
+void solve(int row, vector<vector<string>>& ans, vector<vector<char>> board, int n){
+    if(row== n){
+      addans(board, ans, n);
+      return;
+    }
+    for(int i=0; i<n; i++){
+        if( isSafe(row, i, board, n)==true){
+            board[row][i]='Q';
+            solve(row+1, ans, board, n);
+            board[row][i]='.'; //backtracking
+        }
+    }
+}
+    vector<vector<string>> solveNQueens(int n) {
+        int row=0;
+        vector<vector<string>> ans;
+        vector<vector<char>> board(n, vector<char>(n, '.'));
+        solve(row, ans,board, n);
+        return ans;
+    }
+};
