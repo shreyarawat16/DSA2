@@ -1,0 +1,47 @@
+https://www.geeksforgeeks.org/problems/implement-stack-using-linked-list/1
+
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+struct StackNode {
+    int data;
+    StackNode *next;
+
+    StackNode(int a) {
+        data = a;
+        next = NULL;
+    }
+};
+
+
+// } Driver Code Ends
+class MyStack {
+  private:
+    StackNode *top;
+
+  public:
+    void push(int x) {
+        // code here
+        StackNode* newnode= new StackNode(x);
+        newnode->next= top;
+        top= newnode;
+    }
+
+    int pop() {
+        // code here
+        if(top==NULL){
+            return -1;
+        }
+       int val= top->data;
+       top= top->next;
+       return val;
+    }
+
+    MyStack() { top = NULL; }
+};
+
+
+
+
