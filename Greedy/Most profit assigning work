@@ -1,0 +1,30 @@
+https://leetcode.com/problems/most-profit-assigning-work/submissions/1328281022/
+
+
+class Solution {
+public:
+static const bool cmp(pair<int, int>& a, pair<int, int>& b)  {
+    return a.first < b.first;
+}
+    int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
+        int n= worker.size();
+       
+        sort(worker.begin(), worker.end());
+        vector<pair<int, int>> dp;
+        for(int i=0; i< difficulty.size(); i++){
+           pair<int, int>p= make_pair(difficulty[i], profit[i]);
+           dp.push_back(p);
+        }
+        sort(dp.begin(), dp.end(), cmp);
+        int maxi=0, sum=0,j=0;
+        for(int i=0; i< worker.size(); i++){
+           while( j<worker.size() &&  worker[i]>= dp[j].first){
+              maxi= max(maxi, dp[j].second);
+              j++;
+           }
+           sum+= maxi;
+        }
+        
+        return sum;
+    }
+};
