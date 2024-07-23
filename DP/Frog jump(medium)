@@ -1,0 +1,49 @@
+https://www.naukri.com/code360/problems/frog-jump_3621012?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTabValue=SUBMISSION
+
+#include <bits/stdc++.h>
+//TABULATION
+
+int frogJump(int n, vector<int> &heights)
+{
+    vector<int> dp(n,0);
+    dp[0]=0;
+   for(int i=1; i<n; i++){
+       int left= dp[i-1] + abs(heights[i]- heights[i-1]);
+       int right= INT_MAX;
+       if(i>1){
+           right= dp[i-2]+ abs(heights[i]- heights[i-2]);
+       }
+        dp[i]= min(left, right);
+   }
+    
+   
+    return dp[n-1];
+    
+}
+//MEMOIZED CODE
+/*
+int solve(vector<int>& dp, int ind, vector<int>& heights){
+    if(ind==0){
+        return 0;
+    }
+   
+    if(dp[ind]!=-1){
+        return dp[ind];
+    }
+    int right=INT_MAX;
+    int left= solve(dp, ind-1, heights)+ abs(heights[ind]- heights[ind-1]);
+    if(ind>1){
+    
+     right= solve(dp, ind-2, heights)+ abs(heights[ind]- heights[ind-2]);
+    
+    }
+    dp[ind]= min(left, right);
+    return dp[ind];
+
+}
+int frogJump(int n, vector<int> &heights)
+{
+    vector<int> dp(n+1, -1);
+    return solve(dp, n-1, heights);
+    
+}*/
