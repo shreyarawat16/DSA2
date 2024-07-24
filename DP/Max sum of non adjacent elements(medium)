@@ -1,0 +1,87 @@
+https://www.naukri.com/code360/problems/maximum-sum-of-non-adjacent-elements_843261?leftPanelTabValue=SUBMISSION
+
+#include <bits/stdc++.h> 
+//SPACE OPTIMISATION. TC: O(N), SC: O(1)
+int maximumNonAdjacentSum(vector<int> &nums){
+    // Write your code here.
+   int n= nums.size();
+   int prev2=0, prev1= nums[0];
+   
+  for(int i=1; i<n; i++){
+     int inc=  nums[i];
+     if(i>1){
+         inc+= prev2;
+     }
+     int exc= prev1;
+     int curr= max(inc, exc);
+     prev2= prev1;
+     prev1= curr;
+  }
+  return prev1;
+}
+//TABULATION TC: O(N), SC: O(N)
+/*
+int maximumNonAdjacentSum(vector<int> &nums){
+    // Write your code here.
+   int n= nums.size();
+   vector<int> dp(n, 0);
+   dp[0]=0;
+   
+  for(int i=1; i<n; i++){
+     int inc=  nums[i];
+     if(i>1){
+         inc+= dp[i-2];
+     }
+     int exc= dp[i-1];
+     dp[i]= max(inc, exc);
+  }
+  return dp[n-1];
+}*/
+//MEMOIZATION
+/*
+int solve(int ind, vector<int>& nums, vector<int>& dp){
+    //BASE CASE
+    if(ind ==0){
+       return nums[ind];
+    }
+    if(ind<0){
+        return 0;
+    }
+    if(dp[ind]!=-1){
+        return dp[ind];
+    }
+    int include= nums[ind]+ solve(ind-2, nums, dp);
+    int exclude=solve(ind-1, nums, dp);
+    dp[ind]= max(include, exclude);
+    return dp[ind];
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+    // Write your code here.
+   int n= nums.size();
+   vector<int> dp(n, -1);
+   int val= solve(n-1,nums,dp);
+   return val;
+}
+*/
+//RECURSION
+/*
+int solve(int ind, vector<int>& nums, int& ans){
+    //BASE CASE
+    if(ind ==0){
+       return nums[ind];
+    }
+    if(ind<0){
+        return 0;
+    }
+    int include= nums[ind]+ solve(ind-2, nums, ans);
+    int exclude=solve(ind-1, nums, ans);
+    ans= max(include, exclude);
+    return ans;
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+    // Write your code here.
+   int n= nums.size();
+   int ans;
+   int val= solve(n-1,nums, ans);
+   return val;
+}*/
