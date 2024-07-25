@@ -1,0 +1,102 @@
+https://leetcode.com/problems/minimum-falling-path-sum/description/
+
+class Solution {
+public:
+//TABULATION
+//TC: O(N*M)+O(M), SC: O(N*M) (tabulation) and no recursion stack space
+int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n= matrix.size();
+        int m= matrix[0].size();
+       
+        vector<vector<int>> dp(101, vector<int>(101,0));
+          //BASE CASE
+        for(int j=0; j<m; j++){
+        
+           dp[0][j]= matrix[0][j];
+        }
+       for(int i=1; i<n; i++){
+        for(int j=0; j<m ;j++){
+            
+            int left=matrix[i][j], right= matrix[i][j];
+            int up= matrix[i][j] + dp[i-1][j];
+            if( j-1>=0)  left+= dp[i-1][j-1];
+            else left+= 1e9;
+            if( j+1<m) right+= dp[i-1][j+1];
+            else right+= 1e9;
+            dp[i][j]= min(up, min(left, right));
+            }
+         }
+        int ans= dp[n-1][0];
+    for(int i=0; i<m; i++){
+        ans= min(ans, dp[n-1][i]);
+    }
+    return ans;
+}
+
+//MEMOIZATION TC: 0(N*M), SC: O(N*M)+ O(N) (RECUSRION STACK SPACE)
+/*
+int solve(int i, int j, vector<vector<int>>& matrix, int n, int m,vector<vector<int>>& dp){
+    //BASE CASE
+    if(j>=m || i<0 || j<0){ //OUT OF BOUND CASES
+        return 1e9;
+    }
+
+    if(i== 0){
+        return matrix[i][j];
+    }
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+    
+    //Do all the stuffs stated in the question
+    int up= matrix[i][j]+ solve(i-1, j, matrix, n,m, dp);
+    int udiagLeft= matrix[i][j]+ solve(i-1, j+1,matrix, n,m, dp);
+    int udiagRight= matrix[i][j]+ solve(i-1, j-1, matrix, n, m, dp);
+    return dp[i][j]= min(up, min(udiagLeft, udiagRight));
+}
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n= matrix.size();
+        int m= matrix[0].size();
+        int ans=1e9;
+        vector<vector<int>> dp(101, vector<int>(101,-1));
+        for(int j=0; j<m; j++){
+        
+            int val=solve(n-1, j, matrix,n,m, dp);
+            ans= min(ans, val);
+        }
+        return ans;
+    }
+*/
+//RECURSION. TC:O(3^N), SC: O(N)= RECUSRION STACK SPACE
+/*
+int solve(int i, int j, vector<vector<int>>& matrix, int n, int m){
+    //BASE CASE
+    if(j>=m || i<0 || j<0){ //OUT OF BOUND CASES
+        return 1e9;
+    }
+
+    if(i== 0){
+        return matrix[i][j];
+    }
+    
+    
+    //Do all the stuffs stated in the question
+    int up= matrix[i][j]+ solve(i-1, j, matrix, n,m);
+    int udiagLeft= matrix[i][j]+ solve(i-1, j+1,matrix, n,m);
+    int udiagRight= matrix[i][j]+ solve(i-1, j-1, matrix, n, m);
+    return  min(up, min(udiagLeft, udiagRight));
+}
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int n= matrix.size();
+        int m= matrix[0].size();
+        int ans=1e9;
+       
+        for(int j=0; j<m; j++){
+        
+            int val=solve(n-1, j, matrix,n,m);
+            ans= min(ans, val);
+        }
+        return ans;
+    }
+*/
+};
