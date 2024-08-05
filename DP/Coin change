@@ -1,0 +1,106 @@
+https://leetcode.com/problems/coin-change/submissions/1345263920/
+
+class Solution {
+public:
+//TABULATION, TC: O(N*TARGET), SC: O(N*TARGET)
+int coinChange(vector<int>& coins, int amount) {
+        
+        //Represent in terms of index and target i.e amount
+        int n= coins.size();
+        vector<vector<int>> dp(n, vector<int>(amount+1, 0));
+        //BASE CASE
+        for(int j=0; j<=amount; j++){
+            if(j % coins[0]==0){
+                dp[0][j]= j/coins[0] ;
+            }
+            else{
+                dp[0][j]= 1e9;
+            }
+        
+        }
+        for(int i=1; i<n; i++){
+            for(int j=0; j<=amount; j++){
+                int notTake= dp[i-1][j];
+                int take= 1e9;
+                 if(coins[i]<= j){
+                     take= 1+ dp[i][j-coins[i]];
+               }
+               dp[i][j]= min(take, notTake);
+            }
+        }
+        int ans= dp[n-1][amount];
+        if(ans>= 1e9) return -1;
+        return ans;
+    }
+};
+//MEMOIZATION.TC: o(n*target), SC: O(N*TARGET)+ O(TARGET)
+/*
+int solve(int ind, int target, vector<int>& coins, vector<vector<int>>& dp){
+    //Base Case
+    
+    if(ind==0){
+      if(target% coins[0]==0) {
+          return target/coins[ind];
+       }
+       else{
+          return 1e9;
+       }
+    }
+    if(dp[ind][target]!=-1){
+        return dp[ind][target];
+    }
+    //Explore all possibilities
+    int notTake= solve(ind-1, target, coins, dp);
+    int take= 1e9;
+    if(coins[ind]<= target){
+        take= solve(ind, target- coins[ind], coins, dp) +1;
+    }
+    return dp[ind][target]= min(take , notTake); //Take minimum of all possibilities
+   
+}
+
+    int coinChange(vector<int>& coins, int amount) {
+        
+        //Represent in terms of index and target i.e amount
+        int n= coins.size();
+         vector<vector<int>> dp(n, vector<int>(amount+1, -1));
+        int val = solve(n-1, amount, coins, dp);
+        if(val>= 1e9) return -1;
+        return val;
+    }
+};
+*/
+//RECURSION. INFINITE SUPPLY
+//TC: exponential(way greater than 2^n) because every ind we are taking, we are still standing on that index
+//SC: >>O(N)
+/*
+int solve(int ind, int target, vector<int>& coins){
+    //Base Case
+    
+    if(ind==0){
+      if(target% coins[0]==0) {
+          return target/coins[ind];
+       }
+       else{
+          return 1e9;
+       }
+    }
+    //Explore all possibilities
+    int notTake= solve(ind-1, target, coins);
+    int take= 1e9;
+    if(coins[ind]<= target){
+        take= solve(ind, target- coins[ind], coins) +1;
+    }
+    return min(take , notTake); //Take minimum of all possibilities
+   
+}
+
+    int coinChange(vector<int>& coins, int amount) {
+      
+        //Represent in terms of index and target i.e amount
+        int val = solve(coins.size()-1, amount, coins);
+        if(val>= 1e9) return -1;
+        return val;
+    }
+};
+*/
