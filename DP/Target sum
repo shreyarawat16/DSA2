@@ -1,0 +1,118 @@
+https://leetcode.com/problems/target-sum/description/
+
+class Solution {
+public:
+//TABULATION
+ int findTargetSumWays(vector<int>& nums, int target) {
+        //SAME AS PARTITION with given difference
+
+        int sum=0, n= nums.size();
+        for(int i=0; i<nums.size(); i++){
+            sum+= nums[i];
+        }
+        int t= (sum-target)/2;
+        if(sum-target<0 || (sum-target)%2!=0){
+            return 0;
+        }
+        vector<vector<int>> dp(n, vector<int>(t+1,0));
+        //BASE CASE
+        if(nums[0]==0){
+            dp[0][0]=2; //taking 0 makes no difference. We can take it as well as not take it
+        }
+        else{
+            dp[0][0]=1;
+        }
+        if(nums[0]!=0 && nums[0]<=t ){
+        dp[0][nums[0]]=1;
+        }
+        
+        for(int i=1; i<n; i++){
+            for(int j=0; j<=t; j++){
+                int notTake= dp[i-1][j];
+                int take=0;
+               if(nums[i]<=j){
+                     take= dp[i-1][j-nums[i]];
+                 }
+                dp[i][j]= take+notTake;
+            }
+        }
+        return dp[n-1][t];
+    }
+    /*
+//MEMOIZATION
+int solve(int i, int target, vector<int>& nums, vector<vector<int>>& dp){
+    if(i==0){
+        if(nums[0]==0 && target==0 ){
+            return 2;
+        }
+        if(target==0 || nums[0]==target){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    if(dp[i][target]!=-1){
+        return dp[i][target];
+    }
+    int notTake= solve(i-1, target, nums, dp);
+    int take=0;
+    if(nums[i]<= target){
+        take= solve(i-1, target-nums[i], nums, dp);
+    }
+    return dp[i][target]= take+notTake;
+}
+    int findTargetSumWays(vector<int>& nums, int target) {
+        //SAME AS PARTITION with given difference
+
+        int sum=0, n= nums.size();
+        for(int i=0; i<nums.size(); i++){
+            sum+= nums[i];
+        }
+        int t= (sum-target)/2;
+        if(sum-target<0 || (sum-target)%2!=0){
+            return 0;
+        }
+        vector<vector<int>> dp(n, vector<int>(t+1,-1));
+        int ans= solve(n-1, t, nums, dp);
+        return ans;
+        
+    }
+*/
+//RECURSION, TC:O(2^N), SC:O(2^N)
+/*
+int solve(int i, int target, vector<int>& nums){
+    if(i==0){
+        if(nums[0]==0 && target==0 ){
+            return 2;
+        }
+        if(target==0 || nums[0]==target){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    int notTake= solve(i-1, target, nums);
+    int take=0;
+    if(nums[i]<= target){
+        take= solve(i-1, target-nums[i], nums);
+    }
+    return take+notTake;
+}
+    int findTargetSumWays(vector<int>& nums, int target) {
+        //SAME AS PARTITION with given difference
+        int sum=0, n= nums.size();
+        for(int i=0; i<nums.size(); i++){
+            sum+= nums[i];
+        }
+        int t= (sum-target)/2;
+        if(sum-target<0 || (sum-target)%2!=0){
+            return 0;
+        }
+        int ans= solve(n-1, t, nums);
+        return ans;
+        
+    }
+    */
+};
