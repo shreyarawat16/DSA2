@@ -1,0 +1,93 @@
+https://leetcode.com/problems/coin-change-ii/submissions/1346314734/
+
+class Solution {
+public:
+//TABULATION. TC: O(N*TARGET), SC:O(N*TARGET)
+int change(int amount, vector<int>& coins) {
+        int n= coins.size();
+        vector<vector<int>> dp(n, vector<int>(amount+1,0));
+       //BASE CASE
+       for(int j=0; j<= amount; j++){
+            if(j%coins[0]==0){
+                dp[0][j]=1;
+            }
+            else{
+                dp[0][j]=0;
+            }
+            
+       }
+        for(int i=1; i<n; i++){
+            for(int j=0; j<= amount; j++){
+                int notTake= dp[i-1][j];
+                int take=0;
+                if(coins[i]<= j){
+                    take= dp[i][j- coins[i]];
+                }
+                //RETURN WHATEVER IS ASKED IN THE QUESTION
+             dp[i][j]= take+notTake;
+             }
+        }
+    return dp[n-1][amount];
+}
+//MEMOIZATION. TC: >>O(N*TARGET), SC: >>O(N*TARGET)+O(N)
+/*
+int solve(int ind, int target, vector<int>& arr, vector<vector<int>>& dp){
+   //BASE CASE
+    if(ind==0){
+       if(target%arr[0]==0 ){
+        return 1;
+       }
+       else{
+        return 0;
+       }
+    }   
+    if(dp[ind][target]!=-1){
+        return dp[ind][target];
+    }
+//explore all possibilities
+int notTake= solve(ind-1, target, arr, dp);
+int take=0;
+if(arr[ind]<= target){
+    take= solve(ind, target-arr[ind], arr, dp);
+}
+//RETURN WHATEVER IS ASKED IN THE QUESTION
+return dp[ind][target]= take+notTake;
+}
+    int change(int amount, vector<int>& coins) {
+        int n= coins.size();
+        vector<vector<int>> dp(n, vector<int>(amount+1,-1));
+       int ans= solve(n-1, amount, coins, dp);
+       return ans;
+}
+*/
+    /*
+//RECURSION, TC: >>O(2^N) or exponential
+int solve(int ind, int target, vector<int>& arr){
+   //BASE CASE
+    if(ind==0){
+       if(target%arr[0]==0 ){
+        return 1;
+       }
+       else{
+        return 0;
+       }
+    }   
+//explore all possibilities
+int notTake= solve(ind-1, target, arr);
+int take=0;
+if(arr[ind]<= target){
+    take= solve(ind, target-arr[ind], arr);
+}
+//RETURN WHATEVER IS ASKED IN THE QUESTION
+return take+notTake;
+}
+    int change(int amount, vector<int>& coins) {
+        int n= coins.size();
+       int ans= solve(n-1, amount, coins);
+       if(ans==0){
+        return 0;
+       }
+       return ans;
+    }
+*/
+};
