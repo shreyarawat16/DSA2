@@ -1,0 +1,74 @@
+https://leetcode.com/problems/longest-increasing-subsequence/submissions/1352456191/
+
+class Solution {
+public:
+//DP IS NOT THE BEST SOLUTION AS TC= 10^5*10^5= 10^10 which is huge. BINARY SEARCH IS THE OPTIMAL SOLUTION
+//TABULATION
+int lengthOfLIS(vector<int>& nums) {
+        int n= nums.size();
+        vector<vector<int>> dp(n+1, vector<int>(n+1, 0));
+        for(int ind=n-1; ind>=0; ind--){
+            for(int prev=ind-1; prev>=-1; prev--){
+                //not take
+                int notTake= dp[ind+1][prev+1];
+                //take
+                int take=0;
+                if(prev==-1 || nums[ind]> nums[prev]){
+                    take=  1+ dp[ind+1][ind+1];
+                }
+                 dp[ind][prev+1]= max(notTake, take);
+            }
+        }
+        return dp[0][0];
+    }
+//MEMOIZATION. TC: O(N*N), SC: O(N*N)+O(N)-> auxillary stack space
+/*
+int solve(int ind, int prev, vector<int>& arr,  vector<vector<int>>& dp){
+  //base case
+  int n= arr.size();
+  if(ind== n){
+    return 0;
+  }
+  if(dp[ind][prev+1]!=-1){
+    return dp[ind][prev+1];
+  }
+  //not take
+  int notTake= solve(ind+1, prev, arr,dp);
+  //take
+  int take=0;
+  if(prev==-1 || arr[ind]> arr[prev]){
+    take=  1+ solve(ind+1, ind, arr,dp);
+  }
+  return dp[ind][prev+1]= max(notTake, take);
+}
+    int lengthOfLIS(vector<int>& nums) {
+        int n= nums.size();
+        vector<vector<int>> dp(n, vector<int>(n+1,-1));
+        int ans = solve(0,-1, nums, dp);
+        return ans;
+    }
+*/
+//RECURSION TC: O(2^N)-> two options to take or notTake SC: O(N)->auzillary stack space
+/*
+int solve(int ind, int prev, vector<int>& arr){
+  //base case
+  int n= arr.size();
+  if(ind== n){
+    return 0;
+  }
+  //not take
+  int notTake= solve(ind+1, prev, arr);
+  //take
+  int take=0;
+  if(prev==-1 || arr[ind]> arr[prev]){
+    take= 1+ solve(ind+1, ind, arr);
+  }
+  return max(notTake, take);
+}
+    int lengthOfLIS(vector<int>& nums) {
+        int n= nums.size();
+        int ans = solve(0,-1, nums);
+        return ans;
+    }
+*/
+};
