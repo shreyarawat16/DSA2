@@ -1,0 +1,26 @@
+https://leetcode.com/problems/snake-in-matrix/submissions/1352907736/
+
+class Solution {
+public:
+TC: O(N), SC: O(1)
+int finalPositionOfSnake(int n, vector<string>& commands) {
+    int r=0, c=0;
+
+      for(int i=0; i< commands.size(); i++){
+         string direction =commands[i];
+         if(direction== "UP"){
+            r--;
+         }
+         else if(direction== "RIGHT"){
+            c++;
+         }
+         else if(direction=="DOWN"){
+            r++;
+         }
+         else{
+            c--;
+         }
+      }
+     return r*n+c; 
+}
+};
