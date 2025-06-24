@@ -1,0 +1,62 @@
+https://www.naukri.com/code360/problems/stack-implementation-using-array_3210209?leftPanelTabValue=SUBMISSION
+
+// Stack class.
+class Stack {
+    int *arr;
+    int size;
+    int stop;
+public:
+    
+    Stack(int capacity) {
+        // Write your code here.
+        size= capacity;
+        arr= new int[capacity];
+        stop=-1;
+    }
+
+    void push(int num) {
+        // Write your code here.
+        if(stop== size-1){
+            return;
+        }
+        stop++;
+        arr[stop]= num;
+    }
+
+    int pop() {
+        // Write your code here.
+        if(stop==-1){
+            return -1;
+        }
+        else{
+            return arr[stop--];
+        }
+    }
+    
+    int top() {
+        // Write your code here.
+        if(stop==-1){
+            return -1; //stack is empty
+        }
+        else{
+            return arr[stop];
+        }
+    }
+    
+    int isEmpty() {
+        // Write your code here.
+        if(stop==-1){
+            return 1;
+        }
+        return 0;
+    }
+    
+    int isFull() {
+        // Write your code here.
+        if(stop== size-1){
+            return 1;
+        }
+        return 0;
+    }
+    
+};
