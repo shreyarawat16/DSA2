@@ -1,0 +1,57 @@
+link- https://www.naukri.com/code360/problems/circular-queue_1170058?leftPanelTabValue=SUBMISSION
+
+#include <bits/stdc++.h> 
+class CircularQueue{
+    int *arr;
+    int front;
+    int rear;
+    int size;
+    public:
+    // Initialize your data structure.
+    CircularQueue(int n){
+        // Write your code here.
+        size=n;
+        front=rear=-1;
+        arr= new int[size];
+    }
+
+    // Enqueues 'X' into the queue. Returns true if it gets pushed into the stack, and false otherwise.
+    bool enqueue(int value){
+        // Write your code here.
+        //check if queue is full condition
+        if( (rear+1)%size== front){
+            return false;
+        }
+        //check if first element
+         if(front==-1){
+             front= rear=0;
+             arr[rear]= value;
+         }
+         else{
+             rear= (rear+1)%size;
+             arr[rear]= value;
+              return true;
+         }
+        
+    }
+
+    // Dequeues top element from queue. Returns -1 if the stack is empty, otherwise returns the popped element.
+    int dequeue(){
+        // Write your code here.
+        //check if queue is empty
+        if(front==-1){
+            return -1;
+        }
+        else{
+        int val= arr[front];
+        //check for single element
+        if(front== rear){
+            front= rear=-1;
+        }
+        else{
+        front= (front+1)%size;
+        }
+        return val;
+        }
+    }
+};
