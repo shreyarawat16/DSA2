@@ -1,21 +1,20 @@
-https://www.geeksforgeeks.org/problems/insert-an-element-at-the-bottom-of-a-stack/0
+link- https://www.geeksforgeeks.org/problems/insert-an-element-at-the-bottom-of-a-stack/1
 
-class Solution{
-public:
-void solve(stack<int>& st, int n,int i, int x){
-    if(i==n){
-        st.push(x);
+class Solution {
+  public:
+  void solve(stack<int>& st, int x){
+       if(st.empty()){
+            st.push(x);
+            return;
+        }
+        int element= st.top();
+        st.pop();
+        solve(st,x);
+        st.push(element);
         return;
-    }
-    int num= st.top();
-    st.pop();
-    solve(st, n, i+1, x);
-    st.push(num);
-}
-    stack<int> insertAtBottom(stack<int> st,int x){
-        int n = st.size();
-        int i=0;
-        solve(st, n, i, x);
+  }
+    stack<int> insertAtBottom(stack<int> st, int x) {
+       solve(st, x);
         return st;
     }
 };
