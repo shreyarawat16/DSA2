@@ -1,0 +1,38 @@
+https://leetcode.com/problems/subarray-sum-equals-k/submissions/1678509630/
+
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+    //OPTIMAL SC: in worst case- all the prefix sums are different- O(N)
+    int n= nums.size();
+    int prefixsum=0, count=0;
+    unordered_map<int, int> mp; // O(1)- avg case, O(N)- worst case
+    for(int i=0; i<n; i++){  //O(N)
+        
+        prefixsum+= nums[i];
+        if(prefixsum==k){
+            count++;
+        }
+        int sum= prefixsum-k;
+        if(mp.find(sum)!= mp.end()){
+            count+= mp[sum];
+        }
+        mp[prefixsum]++;
+
+    }
+    return count;
+        //BRUTE- create all the subarrays, TC: O(N*N)
+//         int n= nums.size();
+//         int count=0;
+//         for(int i=0; i<n; i++){
+//             int sum=0;
+//             for(int j=i; j<n; j++){
+//               sum+= nums[j];
+//               if(sum==k){
+//                 count++;
+//               }
+//             }
+//         }
+//         return count;
+    }
+};
