@@ -1,0 +1,26 @@
+https://leetcode.com/problems/permutations/submissions/1679395048/
+
+class Solution {
+public:
+void solve(vector<int> nums, int i, vector<int> temp,
+        vector<vector<int>>& res ){
+            int n= nums.size();
+    if(i== n-1){
+         res.push_back(nums);
+         return;
+    }
+    
+    for(int j=i; j<n; j++){
+       swap(nums[i], nums[j]);
+       solve(nums, i+1, temp, res);
+       swap(nums[i], nums[j]);
+    }
+}
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<int> temp;
+        vector<vector<int>> res;
+        int i=0;
+        solve(nums, i, temp, res);
+        return res;
+    }
+};
