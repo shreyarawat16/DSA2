@@ -1,4 +1,4 @@
-https://leetcode.com/problems/fruit-into-baskets/submissions/1681597693/
+https://leetcode.com/problems/fruit-into-baskets/submissions/1681601731/
 
 class Solution {
 public:
@@ -24,40 +24,40 @@ public:
     // }
 
     //OPTIMAL- TWO POINTERS TC: O(N+N), SC: O(N)
-    // int l=0, r=0, maxi=0,n= fruits.size();
-    // unordered_map<int, int> mp;
-    // while(r<n){
-    //    mp[fruits[r]]++;
-    //     if(mp.size()>2){ 
-    //      while(mp[fruits[l]] !=1){
-    //         mp[fruits[l]]--;
-    //         l++; 
-    //      }
-    //       mp.erase(fruits[l]);
-    //      l++;
-    //    }
-    //    maxi= max(maxi, r-l+1);
-    //    r++;
-    // }
-    // return maxi;
-    // }
-
-    //More Optimal TC: O(N), SC: O(N)
-    int l=0, r=0, n= fruits.size(), maxi=0;
+    int l=0, r=0, maxi=0,n= fruits.size();
     unordered_map<int, int> mp;
     while(r<n){
-        mp[fruits[r]]++;
-        if(mp.size()>2){
-            mp[fruits[l]]--;
-            if(mp[fruits[l]]==0){
-                mp.erase(fruits[l]);
-            }
-            l++;
-        }
-       
-        maxi= max(maxi, r-l+1);
-        r++;
+       mp[fruits[r]]++;
+        while(mp.size()>2){ 
+         mp[fruits[l]]--;
+         if(mp[fruits[l]] ==0){
+           mp.erase(fruits[l]);
+         }
+         
+         l++;
+       }
+       maxi= max(maxi, r-l+1);
+       r++;
     }
     return maxi;
     }
+
+    //More Optimal TC: O(N), SC: O(N)
+    // int l=0, r=0, n= fruits.size(), maxi=0;
+    // unordered_map<int, int> mp;
+    // while(r<n){
+    //     mp[fruits[r]]++;
+    //     if(mp.size()>2){
+    //         mp[fruits[l]]--;
+    //         if(mp[fruits[l]]==0){
+    //             mp.erase(fruits[l]);
+    //         }
+    //         l++;
+    //     }
+       
+    //     maxi= max(maxi, r-l+1);
+    //     r++;
+    // }
+    // return maxi;
+    // }
 };
