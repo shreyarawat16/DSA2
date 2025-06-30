@@ -1,0 +1,64 @@
+https://leetcode.com/problems/max-consecutive-ones-iii/submissions/1681344828/
+
+class Solution {
+public:
+//question can also be said like find the longest subarray with atmost k zeros
+    int longestOnes(vector<int>& nums, int k) {
+        //BRUTE- tc: o(n*n), sc: o(1)
+    //     int n= nums.size();
+    //     int maxi= 0;
+    //     for(int i=0; i<n; i++){
+    //         int count0=0;
+    //         for(int j=i; j<n; j++){
+    //             if(nums[j]==0){
+    //                 count0++;
+    //             }
+    //             if(count0 <= k){     
+    //             maxi= max(maxi, j-i+1);
+    //             }
+    //             else{
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     return maxi;
+    // }
+
+    // OPTIMIAL APPROACH- SLIDING WINDOW AND 2 POINTERS
+    //TC: O(N), SC: O(1)
+    // int left=0, right=0, maxi=0, n= nums.size(), count0=0;
+    // while(right< n){
+    //     if(nums[right]==0){
+    //         count0++;
+    //     }
+    //     if(count0 > k){
+    //         while(nums[left]!=0){
+    //         left++;
+    //         }
+    //         count0--;
+    //         left++;
+    //     }
+    //    maxi= max(maxi, right-left+1);
+    //    right++;
+    // }
+    // return maxi;
+    // }
+
+    //MOST OPTIMAL
+    int l=0, r=0, maxi=0, count0=0, n= nums.size();
+    while(r<n){
+        if(nums[r]==0){
+            count0++;
+        }
+        if(count0 > k){
+            if(nums[l]==0){
+                count0--;
+            }
+           l++;
+        }  
+        maxi= max(maxi, r-l+1);
+        r++;
+    }
+    return maxi;
+    }
+};
