@@ -1,0 +1,39 @@
+https://leetcode.com/problems/combination-sum-iii/submissions/1685210645/
+
+class Solution {
+public:
+void solve(int i, int target, vector<int> temp, vector<vector<int>>& ans, vector<int>& arr, int k){
+    if(temp.size()==k){
+        if(target==0){
+        ans.push_back(temp);
+       
+        }
+         return;
+    }
+    if(i==9){
+        return;
+    }
+    //include
+     temp.push_back(arr[i]);
+     solve(i+1, target-arr[i], temp, ans, arr,k);
+     temp.pop_back();
+
+     //exclude
+     solve(i+1, target, temp, ans, arr, k);
+}
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        if(k>n){
+            return ans;
+        }
+        vector<int> arr;
+        for(int i=1; i<=9; i++){
+           arr.push_back(i);
+        }
+        
+       
+        solve(0, n, temp,ans, arr,k);
+        return ans;
+    }
+};
