@@ -1,0 +1,34 @@
+https://leetcode.com/problems/combination-sum-ii/submissions/1685165568/
+
+class Solution {
+public:
+void solve(vector<vector<int>>& ans, vector<int> temp, vector<int>& nums, int target, int i){
+    if(target==0){
+        ans.push_back(temp);
+        return;
+    }
+    if(target<0 || i==nums.size()){
+        return;
+    }
+    
+    if(nums[i]<=target){
+        //include
+        temp.push_back(nums[i]);
+        solve(ans, temp, nums, target-nums[i], i+1);
+        temp.pop_back();
+        //skip
+        while(i<nums.size()-1 && nums[i]== nums[i+1]){
+            i++;
+        }
+    }
+    //exclude
+    solve(ans, temp, nums, target, i+1);
+}
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        vector<int> temp;
+        vector<vector<int>> ans;
+        solve(ans, temp, candidates, target, 0);
+        return ans;
+    }
+};
