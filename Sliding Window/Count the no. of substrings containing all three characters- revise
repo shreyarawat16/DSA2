@@ -1,0 +1,46 @@
+https://leetcode.com/problems/number-of-substrings-containing-all-three-characters/submissions/1685023477/
+
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        //BRUTE- TLE
+        // int n= s.size(), count=0;
+        // for(int i=0; i<n; i++){
+        //     unordered_map<char, int> mp;
+        //     for(int j=i; j<n; j++){
+        //       mp[s[j]]++;
+        //       if(mp['a']>=1 && mp['b']>=1 && mp['c']>=1){
+        //         count+=n-j;
+        //         break;
+        //       }
+        //     }
+
+        // }
+        // return count;
+
+        //SLIDING WINDOW TC: O(N) SC: O(N)
+    //     int l=0, r=0, ans=0, n=s.size();
+    //     unordered_map<char, int> mp;
+    //     while(r<n){
+    //         mp[s[r]]++;
+    //         while(mp['a']>=1 && mp['b']>=1 && mp['c']>=1){
+    //             ans+= n-r;
+    //             mp[s[l]]--;
+    //             l++;
+    //         }
+    //         r++;
+    //     }
+    //  return ans;
+
+    //STRIVERS METHOD
+    vector<int> lastseen(3,-1);
+    int n= s.size(), cnt=0;
+    for(int i=0; i<n; i++){
+       lastseen[s[i]-'a']=i;
+       if(lastseen[0]!= -1 && lastseen[1]!= -1 && lastseen[2]!= -1){
+          cnt=cnt+ (1+ min({lastseen[0], lastseen[1], lastseen[2]}));
+       }
+    }
+       return cnt;
+    }
+};
