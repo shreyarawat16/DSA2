@@ -1,0 +1,24 @@
+https://leetcode.com/problems/subsets/submissions/1685068779/
+
+class Solution {
+public:
+void solve(vector<int>& nums, vector<vector<int>>& ans, vector<int> temp, int ind){
+    if(ind>= nums.size()){
+        ans.push_back(temp);
+        return;
+    }
+    //exclude
+    solve(nums, ans, temp, ind+1);
+    //include
+    temp.push_back(nums[ind]);
+    solve(nums, ans, temp, ind+1);
+    temp.pop_back();
+}
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        int i=0;
+        solve(nums, ans, temp, i);
+        return ans;
+    }
+};
