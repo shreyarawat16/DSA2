@@ -1,8 +1,8 @@
-https://leetcode.com/problems/binary-subarrays-with-sum/submissions/1688012023/
+https://leetcode.com/submissions/detail/1688449686/
 
 class Solution {
 public:
-    int numSubarraysWithSum(vector<int>& nums, int goal) {
+   
         //BRUTE
         // int n= nums.size();
         // int count=0;
@@ -17,22 +17,45 @@ public:
         // }
         // return count;
 
-        //OPTIMAL- PREFIX SUM + HASHMAP
-        unordered_map<int, int> mp;
-        mp[0]++;
-        int n= nums.size();
-        int presum=0, count=0;
-        for(int i=0; i<n; i++){
-           presum+= nums[i];
-           int target=-1;
-           if(presum>=goal){
-            target= presum-goal;
-           }
-           if(mp.find(target)!= mp.end()){
-              count+= mp[target];
-           }
-           mp[presum]++;
-        }
-        return count;
-    }
+        //OPTIMAL. TC: O(N)+O(N)
+        // unordered_map<int, int> mp;
+        // mp[0]++; //to count the subarray starting at 0th index
+        // int n= nums.size();
+        // int presum=0, count=0;
+        // for(int i=0; i<n; i++){
+        //    presum+= nums[i];
+        //    int target=-1;
+        //    if(presum>=goal){
+        //     target= presum-goal;
+        //    }
+        //    if(mp.find(target)!= mp.end()){
+        //       count+= mp[target];
+        //    }
+        //    mp[presum]++;
+        // }
+        // return count;
+
+int solve(vector<int>& nums, int goal){
+     int l=0, r=0, count=0,sum=0, n=nums.size();
+        if(goal<0) return 0;
+        while(r<n)
+      {
+       sum+= nums[r];
+       while(sum> goal){
+          sum-= nums[l];
+          l++;
+       }
+       count+= r-l+1;
+       r++;
+      } 
+      return count;
+   }
+
+
+        //SLIDING WINDOW
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+      return solve(nums, goal)- solve(nums, goal-1);
+   }
 };
+
+      
