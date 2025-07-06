@@ -1,0 +1,33 @@
+https://leetcode.com/problems/kth-largest-element-in-an-array/submissions/1688753674/
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        //TC: O(NLOGN)+O(KLOGN), SC: O(N) pq stores n elements
+        // priority_queue<int> pq;
+        //to push n elements tc: o(nlogn)
+        // for(int i=0; i<nums.size(); i++){
+        //     pq.push(nums[i]);   //O(logn)
+        // }
+        // int ele=-1;
+        // while(!pq.empty() && k!=0){  //called k times. O(Klogn)
+        //      ele= pq.top();
+        //     pq.pop();              //O(logn)
+        //     k--;
+        // }
+        // return ele;
+
+        //OPTIMAL TC: O(NLOGK), SC: O(K)-> pq is holding atmost k elements
+        priority_queue<int, vector<int>, greater<int>> pq;
+        //Im not pushing more than k elements in the min pq at a time.
+        //to push all n elements the TC: O(nlogk)
+        for(int i=0; i< nums.size(); i++){
+            pq.push(nums[i]); //each push operation takes O(Logk) time
+            if(pq.size()>k){
+                pq.pop();
+            }
+        }
+        return pq.top();
+
+    }
+};
