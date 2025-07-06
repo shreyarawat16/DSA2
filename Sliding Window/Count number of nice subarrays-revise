@@ -1,8 +1,32 @@
-https://leetcode.com/problems/count-number-of-nice-subarrays/submissions/1688036088/
+https://leetcode.com/problems/count-number-of-nice-subarrays/submissions/1688711952/
 
 class Solution {
 public:
+int solve(vector<int>& nums, int goal){
+     int l=0, r=0, countodd=0,ans=0, n=nums.size();
+        if(goal<0) return 0;
+        while(r<n)
+      {
+            if(nums[r]%2!=0){
+                countodd++;
+            }
+            while(countodd> goal){
+              if(nums[l]%2!=0){
+                countodd--;
+              }
+              l++;
+            }
+            
+            ans+= r-l+1;
+            
+            r++;
+      
+      } 
+      return ans;
+   }
+
     int numberOfSubarrays(vector<int>& nums, int k) {
+         
        //BRUTE TC: O(N*N)
     //    int n= nums.size(),ans=0;
     //    for(int i=0; i<n; i++){
@@ -23,24 +47,28 @@ public:
     //    }
     //   return ans;
 
-    //OPTIMAL- PREFIX SUM + HASHMAP
-    unordered_map<int, int> mp;
-    mp[0]++;
-    int presum=0, n= nums.size(), ans=0;
-    for(int i=0; i<n; i++){
-        if(nums[i]%2!=0){
-            presum++;
-        }
-        int target=-1;
-        if(presum>=k){
-            target= presum-k;
-        }
-        if(mp.find(target)!= mp.end()){
-            ans+=mp[target];
-        }
+    //OPTIMAL- PREFIX SUM + HASHMAP TC: O(2N), SC:O(N)
+    // unordered_map<int, int> mp;
+    // mp[0]++;
+    // int presum=0, n= nums.size(), ans=0;
+    // for(int i=0; i<n; i++){
+    //     if(nums[i]%2!=0){
+    //         presum++;
+    //     }
+    //     int target=-1;
+    //     if(presum>=k){
+    //         target= presum-k;
+    //     }
+    //     if(mp.find(target)!= mp.end()){
+    //         ans+=mp[target];
+    //     }
        
-      mp[presum]++;
-    }
-    return ans;
+    //   mp[presum]++;
+    // }
+    // return ans;
+    // }
+    //SLIDING WINDOW- SC: O(1), TC:O(2*2N)=O(4N)
+        return solve(nums, k)- solve(nums, k-1);
     }
 };
+   
