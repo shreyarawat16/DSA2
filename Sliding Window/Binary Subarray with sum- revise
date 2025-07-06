@@ -1,0 +1,38 @@
+https://leetcode.com/problems/binary-subarrays-with-sum/submissions/1688012023/
+
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& nums, int goal) {
+        //BRUTE
+        // int n= nums.size();
+        // int count=0;
+        // for(int i=0; i< n; i++){
+        //     int sum=0;
+        //      for(int j=i; j<n; j++){
+        //         sum+= nums[j];
+        //         if(sum== goal){
+        //             count++;
+        //         }
+        //      }
+        // }
+        // return count;
+
+        //OPTIMAL- PREFIX SUM + HASHMAP
+        unordered_map<int, int> mp;
+        mp[0]++;
+        int n= nums.size();
+        int presum=0, count=0;
+        for(int i=0; i<n; i++){
+           presum+= nums[i];
+           int target=-1;
+           if(presum>=goal){
+            target= presum-goal;
+           }
+           if(mp.find(target)!= mp.end()){
+              count+= mp[target];
+           }
+           mp[presum]++;
+        }
+        return count;
+    }
+};
