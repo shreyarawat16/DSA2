@@ -1,0 +1,45 @@
+https://leetcode.com/problems/subarrays-with-k-different-integers/submissions/
+
+class Solution {
+public:
+int solve(vector<int>& nums, int k){
+    int l=0, r=0, n= nums.size(), count=0;
+    unordered_map<int, int> mp;
+    while(r<n){
+        mp[nums[r]]++;
+        while(mp.size()>k){
+          mp[nums[l]]--;
+          if(mp[nums[l]]==0){
+            mp.erase(nums[l]);
+          }
+          l++;
+        }
+        
+        count+= r-l+1;
+        r++;
+    }
+    return count;
+}
+    int subarraysWithKDistinct(vector<int>& nums, int k) {
+        //BRUTE
+          
+        // int n= nums.size(), count=0;
+        // for(int i=0; i<n; i++){
+        //     set<int> st;
+        //     for(int j=i; j<n; j++){
+        //          st.insert(nums[j]);
+        //          if(st.size()==k){
+        //            count++;
+        //          }
+        //          else if(st.size()> k){
+        //             break;
+        //          }
+        //     }
+        // }
+        // return count;
+
+        //OPTIMAL- SLIDING WINDOW
+        return solve(nums, k)- solve(nums, k-1);
+       
+    }
+};
