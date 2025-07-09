@@ -1,0 +1,32 @@
+https://leetcode.com/problems/divide-array-in-sets-of-k-consecutive-numbers/submissions/1691646399/
+
+class Solution {
+public:
+    bool isPossibleDivide(vector<int>& nums, int k) {
+        //TC: O(NLOGN) SC: O(N)
+        unordered_map<int,int> mp;
+        for(int i=0; i<nums.size(); i++){
+            mp[nums[i]]++;
+        }
+        priority_queue<int, vector<int>, greater<int>> pq;
+        for(auto it:mp){
+            pq.push(it.first);
+        }
+        while(!pq.empty()){
+            int val= pq.top();
+            
+            for(int i=val; i<val+k; i++){
+                if(mp.find(i) == mp.end()){
+                    return false;
+                }
+                else{
+                    mp[i]--;
+                }
+                if(!pq.empty() && mp[i]==0){
+                    pq.pop();
+                }
+            }
+        }
+        return true;
+    }
+};
