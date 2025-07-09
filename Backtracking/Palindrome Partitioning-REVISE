@@ -1,0 +1,38 @@
+https://leetcode.com/problems/palindrome-partitioning/submissions/1691872556/
+
+class Solution {
+public:
+bool isPalin(string s){
+    int si=0, ei= s.size()-1;
+    while(si< ei){
+        if(s[si]!= s[ei]){
+            return false;
+        }
+        si++;
+        ei--;
+    }
+    return true;
+}
+void solve( string s, vector<string>& temp, vector<vector<string>>& res){
+        if(s.size() ==0){
+            res.push_back(temp); return;
+        }
+        for(int i=0; i<s.size(); i++){
+            string part= s.substr(0,i+1);
+            
+        if(isPalin(part)==true){
+            temp.push_back(part);
+            solve(s.substr(i+1), temp, res);
+            temp.pop_back();
+        }
+       
+      }
+       
+}
+    vector<vector<string>> partition(string s) {
+        vector<string> temp;
+        vector<vector<string>> res;
+        solve(s,temp,res);
+        return res;
+    }
+};
