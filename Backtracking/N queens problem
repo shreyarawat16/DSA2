@@ -1,63 +1,89 @@
-https://leetcode.com/problems/n-queens/submissions/1321751805/
+https://leetcode.com/problems/n-queens/submissions/1694011030/
 
 class Solution {
 public:
-void addans(vector<vector<char>>& board, vector<vector<string>>& ans, int n){
+void addans(vector<vector<char>>& board, vector<vector<string>>& ans,int n){
     vector<string> temp;
-for(int i=0; i<n; i++){
-    string out="";
-    for(int j=0; j<n; j++){
-        out.push_back(board[i][j]);
+    for(int i=0; i<n; i++){
+        string output="";
+        for(int j=0; j<n; j++){
+            output.push_back(board[i][j]);
+        }
+        temp.push_back(output);
     }
-    temp.push_back(out);
+    ans.push_back(temp);
 }
-ans.push_back(temp);
-}
-bool isSafe(int row, int col, vector<vector<char>>& board, int n){
+bool isSafe(int row, int col, vector<vector<char>>& board,int n){
     int x=row, y=col;
-    //for same column
-    while(x>=0){
+    //down
+    while(x<n){
     if(board[x][y]=='Q'){
         return false;
     }
-    x--;
+    x++;
     }
-    //upper left diagnol
     x=row;
+    //up
+    while(x>=0){
+        if(board[x][y]=='Q'){
+            return false;
+        }
+        x--;
+    }
+    x=row;
+    //right
+    while(y<n){
+        if(board[x][y]=='Q'){
+            return false;
+        }
+        y++;
+    }
+    y=col;
+    //left
+    while(y>=0){
+        if(board[x][y]=='Q'){
+            return false;
+        }
+        y--;
+    }
+    y=col;
+    while(x>=0 && y<n){
+    //upper right
+    if(board[x][y]=='Q'){
+        return false;
+    }
+    x--, y++;
+    }
+    //upper left
+    x=row, y=col;
     while(x>=0 && y>=0){
         if(board[x][y]=='Q'){
             return false;
         }
         x--, y--;
     }
-    //upper right diagnol
-    x=row, y=col;
-    while(x>=0 && y<n){
-        if(board[x][y]=='Q'){
-            return false;
-        }
-        x--, y++;
-    }
-    return true;
+return true;
 }
-void solve(int row, vector<vector<string>>& ans, vector<vector<char>> board, int n){
-    if(row== n){
-      addans(board, ans, n);
-      return;
-    }
-    for(int i=0; i<n; i++){
-        if( isSafe(row, i, board, n)==true){
-            board[row][i]='Q';
-            solve(row+1, ans, board, n);
-            board[row][i]='.'; //backtracking
+void solve(int row,int n, vector<string>& temp, vector<vector<string>>& ans,
+vector<vector<char>> board){
+     if(row==n){
+        addans(board, ans,n);
+        return;
+     }
+     for(int j=0; j<n; j++){
+        if(isSafe(row, j, board,n)){
+            board[row][j]='Q';
+            solve(row+1,n,temp,ans, board);
+            board[row][j]='.';
         }
-    }
+     }
 }
     vector<vector<string>> solveNQueens(int n) {
-        int row=0;
+        vector<string> temp;
         vector<vector<string>> ans;
-        vector<vector<char>> board(n, vector<char>(n, '.'));
-        solve(row, ans,board, n);
+        int row=0;
+        vector<vector<char>> board(n, vector<char>(n,'.'));
+        solve(row, n, temp, ans, board);
         return ans;
     }
 };
