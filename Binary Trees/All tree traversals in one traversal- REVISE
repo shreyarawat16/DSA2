@@ -1,0 +1,39 @@
+https://www.naukri.com/code360/problems/tree-traversal_981269?leftPanelTabValue=SUBMISSION
+
+//TC: O(3N), SC: O(3N)
+vector<vector<int>> getTreeTraversal(TreeNode *root){
+    // Write your code here.
+    if(root==NULL){
+        return {{}, {}, {}};
+    }
+    stack<pair<TreeNode*, int >> st;
+    st.push({root,1});
+    vector<int> preorder, inorder, postorder;
+    while(!st.empty()){
+        TreeNode* node= st.top().first;
+        int num= st.top().second;
+        st.pop();
+        if(num==1){
+            preorder.push_back(node->data);
+            st.push({node, num+1});
+            if(node->left!=NULL){
+            st.push({node->left, 1});
+            }
+            
+        }
+        else if(num==2){
+            inorder.push_back(node->data);
+            st.push({node, num+1});
+            if(node->right!= NULL){
+            st.push({node->right, 1});
+            }
+        }
+        else if(num==3){
+            postorder.push_back(node->data);
+           
+            
+        }
+       
+    }
+    return {inorder, preorder, postorder};
+}
