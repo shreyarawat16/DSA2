@@ -30,6 +30,8 @@ public:
 //         bool right= isBalanced(root->right);
 //         return left && right;
 //     }
+
+//BETTER SOLUTION. TC; O(N)
 int height(TreeNode* root){
     if(!root) return 0;
     int lh= height(root->left);
