@@ -1,0 +1,19 @@
+https://leetcode.com/submissions/detail/1697679313/
+
+class Solution {
+public:
+//BRUTE
+int solve(TreeNode* root, int& ans){
+    if(root==NULL) return 0;
+    int l= max(0,solve(root->left, ans));
+    int r= max(0,solve(root->right, ans));
+    
+     ans= max(ans, l+r+root->val);
+    return max(l,r)+ root->val;
+}
+    int maxPathSum(TreeNode* root) {
+        int sum=INT_MIN;
+        solve(root, sum);
+        return sum;
+    }
+};
