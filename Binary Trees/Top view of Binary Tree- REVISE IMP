@@ -1,5 +1,6 @@
 https://www.geeksforgeeks.org/problems/top-view-of-binary-tree/1
 
+Consider only the first node of the vertical line
 class Solution {
   public:
     // Function to return a list of nodes visible from the top view
