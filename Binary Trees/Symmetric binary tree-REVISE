@@ -1,0 +1,22 @@
+https://leetcode.com/problems/symmetric-tree/submissions/1699042813/
+
+class Solution {
+public:
+bool helper(TreeNode* n1, TreeNode* n2){
+    if(n1==NULL && n2==NULL) return true;
+    if( (n1==NULL && n2!=NULL) || (n1!=NULL && n2==NULL) ){
+        return false;
+    } 
+    bool ans=false;
+    if(n1->val== n2->val){
+        ans=true;
+    }
+    bool left= helper(n1->left, n2->right);
+    bool right= helper(n1->right, n2->left);
+    return ans&& left && right; 
+}
+    bool isSymmetric(TreeNode* root) {
+         if(root==NULL) return true;
+         return helper(root->left, root->right);
+    }
+};
