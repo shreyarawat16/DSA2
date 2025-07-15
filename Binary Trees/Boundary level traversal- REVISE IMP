@@ -1,0 +1,60 @@
+https://www.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1
+
+class Solution {
+  public:
+  void addLeaf(Node* root, vector<int>& ans){
+      if(root==NULL) return;
+      if(root->left==NULL && root->right==NULL)
+      {
+          ans.push_back(root->data); 
+          return;
+      }
+      addLeaf(root->left, ans);
+      addLeaf(root->right, ans);
+  }
+  void addLeft(Node* root, vector<int>& ans){
+      Node* curr=root->left;
+        while(curr!=NULL){
+            if(curr->left!=NULL || curr->right!=NULL){
+               ans.push_back(curr->data);
+            }
+            if(curr->left) curr=curr->left;
+            else curr=curr->right;
+        }
+  }
+  void addRight(Node* root, vector<int>& ans){
+      Node* curr=root->right;
+        vector<int> temp;
+        while(curr!=NULL){
+            if(curr->left!=NULL || curr->right!=NULL){
+               temp.push_back(curr->data);
+            }
+            if(curr->right) curr=curr->right;
+            else curr=curr->left;
+        }
+        int n= temp.size();
+        for(int i=n-1; i>=0; i--){
+            ans.push_back(temp[i]);
+        }
+  }
+    vector<int> boundaryTraversal(Node *root) {
+        // code here
+        vector<int> ans;
+        if(root==NULL) return ans;
+        if(root->left!=NULL || root->right!=NULL)
+        {
+            ans.push_back(root->data);
+        }
+        //add left subtree
+        addLeft(root, ans);
+        //add leaf nodes
+       
+        addLeaf(root, ans);
+        
+        //add right subtree
+        addRight(root, ans);
+        
+       
+        return ans;
+    }
+};
