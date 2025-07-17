@@ -1,0 +1,58 @@
+https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/submissions/1701537088/
+
+class Solution {
+public:
+void findparent(TreeNode* root, unordered_map<TreeNode* , TreeNode*>& mp){
+    if(root==NULL) return;
+     
+     if(root->left){
+        mp[root->left]= root;
+     }
+     if(root->right){
+        mp[root->right]= root;
+     }
+   findparent(root->left, mp);
+   findparent(root->right, mp);
+}
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        vector<int> ans;
+        if(root==NULL){
+            return ans;
+        }
+        unordered_map<TreeNode* , TreeNode*> mp;
+        findparent(root, mp);
+        queue<TreeNode* >q;
+        q.push(target);
+        unordered_map<TreeNode*, int> vis;
+        vis[target]=1;
+        while(!q.empty()){
+            int size= q.size();
+            if(k==0) break;
+            for(int i=0; i<size; i++){
+
+            TreeNode* node= q.front();
+            q.pop();
+            //children of node
+            if(node->left && !vis[node->left]) {
+                q.push(node->left);
+                vis[node->left]=1;
+            }
+            if(node->right && !vis[node->right]){
+                q.push(node->right);
+                vis[node->right]=1;
+            }
+            //parent of the node
+            if(mp[node] && !vis[mp[node]]){
+                q.push(mp[node]);
+                vis[mp[node]]=1;
+            }
+            }
+            k--;
+        }
+        while(!q.empty()){
+            ans.push_back(q.front()->val);
+            q.pop();
+        }
+        return ans;
+    }
+};
