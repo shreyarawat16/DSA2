@@ -1,0 +1,44 @@
+https://leetcode.com/problems/word-ladder/submissions/1704436830/
+
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList)   {
+        bool flag= false;
+        for(int i=0; i<wordList.size(); i++){
+            if(wordList[i]== endWord){
+              flag=true;
+            }
+        }
+        if(flag==false){
+            return 0;
+        }
+        unordered_map<string,int> mp;
+        for(int i=0; i<wordList.size(); i++){
+            mp[wordList[i]]++;
+        }
+        int cnt=1;
+        queue<pair<string,int>> q;
+        q.push({beginWord,1});
+        while(!q.empty()){
+            string str= q.front().first;
+            int cnt= q.front().second;
+            q.pop();
+            if(str== endWord){
+                return cnt;
+            }
+            for(int j=0; j<str.size(); j++){
+               char ch= str[j];
+               for(char k='a'; k<='z'; k++){
+                 str[j]=k;
+                 if(mp.find(str)!= mp.end()){
+                    q.push({str, cnt+1});
+                    mp.erase(str);
+                 }
+               }
+               str[j]=ch;
+            }
+        }
+    
+    return 0;
+    }
+};
