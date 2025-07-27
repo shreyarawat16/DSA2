@@ -1,0 +1,100 @@
+https://leetcode.com/submissions/detail/1713619564/
+
+class Solution {
+public:
+
+    vector<vector<int>> threeSum(vector<int>& nums) {
+    //BRUTE- Find all the triplets. TLE
+    //TC: O(N*N*N* log(no. of unique elements)
+    //SC: O(2* (number of triplets)) set and ans
+    // int n= nums.size();
+    // vector<vector<int>> ans;
+    // set<vector<int>> st;
+    // for(int i=0; i<n; i++){
+    //     for(int j=i+1; j<n; j++){
+    //         for(int k=j+1; k<n; k++){
+    //             int sum= nums[i]+nums[j]+nums[k];
+    //             if(sum==0){
+    //                 vector<int> temp={nums[i], nums[j], nums[k]};
+    //                 sort(temp.begin(), temp.end());
+    //                 st.insert(temp); //O(logN)
+    //             }
+    //         }
+    //     }
+    // }
+    // ans.push_back(st.begin(), st.end());
+    // return ans;
+
+    //BETTER- to remove innermost k loop to get rid of N^3 TC
+    //HASHMAP TC: O(N*N*N*LOG(no. of triplets))
+    //SC: O(set+map+ans)= O(number of triplets+N+ no. of triplets)= O(2*no. of triplets+N)
+   
+    // int n= nums.size();
+    // vector<vector<int>> ans;
+    // set<vector<int>> st;
+    // for(int i=0; i<n; i++){
+    //      unordered_map<int, int> mp; //O(N) worst case of unordered map. We can use set<int> hashSet as well to store unique values which will take O(logM) TC better than map
+    //     for(int j=i+1; j<n; j++){
+    //         int sum= -(nums[i]+nums[j]);
+    //         if(mp.find(sum)!= mp.end()){
+    //             vector<int> temp= {nums[i], nums[j], sum};
+    //             sort(temp.begin(), temp.end());
+    //             st.insert(temp); //LOG(number of triplets)
+    //         }
+    //         mp[nums[j]]++;
+    //     }
+    // }
+    // for(auto it:st){
+    //   ans.push_back(it);
+    // }
+    // return ans;
+
+
+    //OPTIMAL
+    //TC: O(NLOGN* N*N)= O(N*N)
+//SC: O(1) sorting will take constant space, new variables like i,j,k will also take constant space, ans storage space will depend on how many triplets are found
+        sort(nums.begin(), nums.end()); //O(NLOGN)
+        int n=nums.size();
+        vector<vector<int>> ans;
+      
+        for(int i=0; i<n; i++){   //O(N)
+            if(i>0 && nums[i]==nums[i-1]){
+                
+                continue;
+            }
+           
+           
+            int k=i+1, j=n-1;
+            while(k<j){   //O(N)
+           
+           int sum= nums[i]+nums[j]+nums[k];
+            if(sum==0){
+                ans.push_back({nums[i], nums[k], nums[j]});
+                k++; j--;
+              while(k<j && nums[k]== nums[k-1]) {
+                k++;
+              }
+              while(k<j && nums[j]== nums[j+1]){
+                j--;
+              }
+              
+            }
+            else if(sum<0){
+                k++;
+                while(k<j && nums[k]== nums[k-1]) {
+                 k++;
+              }
+            }
+            else {
+                j--;
+                 while(k<j && nums[j]== nums[j+1]){
+                j--;
+              }
+            }
+        }
+      }
+        return ans;
+
+
+    }
+};
