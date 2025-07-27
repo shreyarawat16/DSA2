@@ -1,0 +1,59 @@
+https://leetcode.com/submissions/detail/1712409304/
+
+class Solution {
+public:
+//BRUTE FORCE TC: O(N*N) will give TLE
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        // vector<int> ans;
+        // int n= numbers.size();
+        // for(int i=0; i<n-1; i++){
+        //     int sum=0;
+        //     for(int j=i+1; j<n; j++){
+        //       sum=numbers[i]+ numbers[j];
+        //       if(sum == target){
+        //          ans.push_back(i+1);
+        //          ans.push_back(j+1);
+        //          break;
+        //       }
+        //     }
+        // }
+        // return ans;
+
+        //BETTER- HASHMAP TC: O(N), SC: O(N) worst case
+        // vector<int> ans;
+        // int n= numbers.size();
+        // unordered_map<int, int> mp;
+        
+        // for(int i=0; i<n; i++){
+           
+        //     int newtarget= target- numbers[i];
+        //     if(mp.find(newtarget)!= mp.end()){
+        //        ans.push_back( mp[newtarget]+1);
+        //        ans.push_back(i+1);
+        //        break;
+        //     }
+        //     mp[numbers[i]]=i;
+        // }
+        // return ans;
+
+        //OPTIMAL- 2 pointers
+        vector<int> ans;
+        int i=0, j=numbers.size()-1;
+        int sum=0;
+        while(i<=j){
+            sum= numbers[i]+ numbers[j];
+            if(sum== target){
+                ans.push_back(i+1);
+                ans.push_back(j+1);
+                break;
+            }
+            else if(sum<target){
+                i++;
+            }
+            else{
+                j--;
+            }
+        }
+        return ans;
+    }
+};
