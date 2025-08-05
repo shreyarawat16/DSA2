@@ -1,47 +1,46 @@
-https://leetcode.com/problems/intersection-of-two-linked-lists/submissions/1314213252/
+https://leetcode.com/problems/intersection-of-two-linked-lists/submissions/1724050932/
 
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
         if(headA== headB){
             return headA;
-            
         }
-        int lenA=0, lenB=0;
+        if(headA==NULL){
+          return headB;
+        }
+        if(headB==NULL){
+         return headA;
+        }
+
         ListNode* tempA= headA, *tempB= headB;
-        while(tempA!=NULL){
-            lenA++;
-            tempA= tempA->next;
+        int len1=0, len2=0;
+        while(tempA!= NULL){
+            len1++;
+            tempA=tempA->next;
         }
-        while(tempB!=NULL){
-            lenB++;
+        while(tempB!= NULL){
+            len2++;
             tempB= tempB->next;
         }
-        if(lenB> lenA){
-        while(lenB> lenA){
-            headB= headB->next;
-            lenB--;
+        tempA= headA, tempB= headB;
+        if(len2> len1){
+           while(len2!=len1){
+            tempB=tempB->next;
+            len2--;
+           }
         }
-        }
-        else if(lenA> lenB){
-          while(lenA> lenB){
-            headA= headA->next;
-            lenA--;
-        }
-        }
-        if(headA== headB){
-            return headA;
-            
-        }
-        ListNode* ans=NULL;
-        while(headA && headB){
-            headA= headA->next;
-            headB= headB->next;
-            if(headA== headB){
-                ans= headA;
-                break;
+        else if(len1> len2){
+            while(len1 != len2){
+                tempA= tempA->next;
+                len1--;
             }
         }
-        return ans;
+        while(tempA != tempB){
+            
+            tempA= tempA->next;
+            tempB= tempB->next;
+        }
+        return tempA;
     }
 };
