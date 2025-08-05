@@ -1,0 +1,64 @@
+https://www.geeksforgeeks.org/problems/given-a-linked-list-of-0s-1s-and-2s-sort-it/1
+
+/*  Node is defined as
+  struct Node {
+    int data;
+    struct Node *next;
+    Node(int x) {
+        data = x;
+        next = NULL;
+    }
+};*/
+class Solution {
+  public:
+    Node* segregate(Node* head) {
+        // code here
+        Node* onehead=NULL, *onetail=NULL;
+        Node* zerohead=NULL, *zerotail=NULL;
+        Node* twohead=NULL, *twotail=NULL;
+        Node* temp=head;
+        while(temp!= NULL){
+            if(temp->data==0){
+                if(zerohead==NULL){
+                    zerohead=zerotail=temp;
+                }
+                else{
+                    zerotail->next=temp;
+                    zerotail=temp;
+                }
+            }
+            else if(temp->data==1){
+                if(onehead==NULL){
+                    onehead= onetail=temp;
+                }
+                else{
+                    onetail->next= temp;
+                    onetail=temp;
+                }
+            }
+            else{
+                if(twohead==NULL){
+                    twohead= twotail= temp;
+                }
+                else{
+                    twotail->next= temp;
+                    twotail=temp;
+                }
+            }
+            temp= temp->next;
+        }
+        if(twotail) twotail->next=NULL;
+        if(onetail) onetail->next= twohead;
+        if(zerotail){
+            if(onehead){
+                zerotail->next=onehead;
+            }
+            else{
+                zerotail->next= twohead;
+            }
+        }
+        if(zerohead) return zerohead;
+        else if(onehead) return onehead;
+        else return twohead;
+    }
+};
