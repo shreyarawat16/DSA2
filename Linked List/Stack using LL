@@ -1,0 +1,32 @@
+https://www.geeksforgeeks.org/problems/implement-stack-using-linked-list/1
+
+class MyStack {
+  private:
+    StackNode *top;
+
+  public:
+    void push(int x) {
+        // code here
+        StackNode* newnode= new StackNode(x);
+        if(top==NULL){
+            top=newnode;
+        }
+        else{
+            newnode->next=top;
+            top=newnode;
+        }
+    }
+
+    int pop() {
+        
+        // code here
+        if(top==NULL){
+            return -1;
+        }
+        int ans= top->data;
+        top=top->next;
+        return ans;
+    }
+
+    MyStack() { top = NULL; }
+};
