@@ -1,0 +1,33 @@
+https://leetcode.com/submissions/detail/1731373713/
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(head==NULL || head->next==NULL){
+            return head;
+        }
+        ListNode* curr= head, *prev=NULL, *nextNode= curr->next;
+        while(curr && curr->next){
+            if(curr->val == nextNode->val){
+                 while(nextNode!=NULL && nextNode->val == curr->val ){
+                    nextNode= nextNode->next;
+                 }
+                 if(prev==NULL){
+                    head=nextNode;
+                 }
+                 else{
+                    prev->next= nextNode;
+                 }
+            }
+            else{
+                prev=curr;
+                
+            }
+            curr= nextNode;
+            if(curr!=NULL){
+              nextNode= curr->next;
+            }
+        }
+        return head;
+    }
+};
