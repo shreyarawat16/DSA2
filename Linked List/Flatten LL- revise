@@ -1,0 +1,97 @@
+https://www.geeksforgeeks.org/problems/flattening-a-linked-list/1
+
+/* Node structure  used in the program
+
+struct Node{
+    int data;
+    struct Node * next;
+    struct Node * bottom;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+        bottom = NULL;
+    }
+
+};
+*/
+
+class Solution {
+  public:
+    // Function which returns the  root of the flattened linked list.
+   
+        // Your code here
+        //BRUTE
+        //TC: O(N*M)+ O(N*MLOG(N*M))+ O(N*M)=O(N*MLOG(N*M))
+        //SC: O(2*(N*M)) 
+        // if(root==NULL){
+        //     return NULL;
+        // }
+        // vector<int> v;
+        // Node* temp= root;
+        // while(temp!=NULL){
+        //      Node* temp2= temp;
+        //     while(temp2!=NULL){
+        //       v.push_back(temp2->data);
+        //       temp2=temp2->bottom;
+        //  }
+        //  temp= temp->next;
+        // }
+        // sort(v.begin(), v.end());
+        // Node* dummy= new Node(-1), *curr=dummy;
+        // for(int i=0; i<v.size(); i++){
+        //     Node* newnode= new Node(v[i]);
+        //     curr->bottom= newnode;
+        //     curr= newnode;
+        // }
+        // return dummy->bottom;
+        
+        //OPTIMAL- Recursion
+        Node* mergeLL(Node* l1, Node* l2){
+            if(l1==NULL && l2==NULL){
+                return NULL;
+            }
+            if(l1==NULL){
+                return l2;
+            }
+            if(l2== NULL){
+                return l1;
+            }
+            Node* dummy= new Node(-1);
+            Node* curr=dummy;
+            while(l1 && l2){
+                if(l1->data < l2->data){
+                    curr->bottom= l1;
+                    curr= l1;
+                    l1=l1->bottom;
+                }
+                else{
+                    curr->bottom= l2;
+                    curr= l2;
+                    l2=l2->bottom;
+                }
+                curr->next=NULL;
+            }
+            while(l1){
+                curr->bottom= l1;
+                curr=l1;
+                l1=l1->bottom;
+            }
+            while(l2){
+                curr->bottom= l2;
+                curr=l2;
+                l2=l2->bottom;
+            }
+            return dummy->bottom;
+        }
+    Node *flatten(Node *root) {
+        if(root==NULL || root->next==NULL){
+             return root;
+        }
+        Node* temp= root;
+       Node* temp2= flatten(root->next);
+       temp->next=NULL;
+       Node* head= mergeLL(temp, temp2);
+       return head;
+    }
+};
