@@ -1,0 +1,16 @@
+https://www.geeksforgeeks.org/problems/minimum-element-in-bst/1
+
+  public:
+    int minValue(Node* root) {
+        // Code here
+        if(root==NULL){
+            return -1;
+        }
+        int ans=-1;
+        while(root->left){
+            root=root->left;
+        }
+        ans= root->data;
+        return ans;
+    }
+};
