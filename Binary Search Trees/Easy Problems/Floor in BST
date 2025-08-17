@@ -1,0 +1,29 @@
+https://www.geeksforgeeks.org/problems/floor-in-bst/1
+
+// Function to search a node in BST.
+class Solution {
+
+  public:
+    int floor(Node* root, int x) {
+        // Code here
+        if(root==NULL){
+            return -1;
+        }
+        Node* curr=root;
+        int floor=-1;
+        while(curr){
+            if(x== curr->data){
+                 return curr->data;
+                 
+            }
+            else if(x> curr->data){
+                floor = curr->data;
+                curr = curr->right;
+            }
+            else{
+                curr=curr->left;
+            }
+        }
+        return floor;
+    }
+};
