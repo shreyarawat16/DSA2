@@ -1,0 +1,38 @@
+https://leetcode.com/problems/delete-node-in-a-bst/submissions/1740783579/
+
+
+class Solution {
+public: //TC: O(H)
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(root==NULL){
+            return NULL;
+        }
+        if(key< root->val){
+           root->left= deleteNode(root->left, key);
+        }
+        else if(key > root->val){
+          root->right= deleteNode(root->right, key);
+        }
+         else{
+            if(root->left==NULL && root->right==NULL){
+                return NULL;
+            }
+            if(root->left==NULL && root->right!= NULL){
+               return root->right;
+            }
+            if(root->left!=NULL && root->right==NULL){
+                return root->left;
+            }
+            if(root->left && root->right){
+                TreeNode* temp= root->left;
+                while(temp->right){
+                  temp= temp->right;
+                }
+                swap(root->val,temp->val);
+               root->left= deleteNode(root->left, key);
+
+            }
+         }
+       return root;
+    }
+};
