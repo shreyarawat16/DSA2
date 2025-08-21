@@ -1,0 +1,27 @@
+https://leetcode.com/problems/validate-binary-search-tree/submissions/1743153299/
+
+class Solution {
+public:
+//TC: O(N), SC:O(1)
+bool solve(TreeNode* root, long long mini, long long maxi){
+    if(root==NULL){
+        return true;
+    }
+    if(root->val<= mini || root->val>= maxi){
+     return false;
+   }
+   bool left= solve(root->left, mini, root->val);
+   bool right= solve(root->right, root->val, maxi);
+   if(left && right){
+     return true;
+   }
+   return false;
+   
+}
+    bool isValidBST(TreeNode* root) {
+       
+       return solve(root, LLONG_MIN, LLONG_MAX);
+        
+    }
+};
+
