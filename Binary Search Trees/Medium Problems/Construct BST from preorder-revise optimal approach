@@ -1,0 +1,47 @@
+https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/submissions/1743341370/
+
+class Solution {
+public:
+// //TC: O(N*N) in worst case of skewed tree
+// TreeNode* solve(vector<int>& preorder, int ps, int pe){
+//     if(ps> pe){
+//         return NULL;
+//     }
+//     TreeNode* root= new TreeNode(preorder[ps]);
+   
+//     //counting elements smaller than 8
+//     int i;
+//     for( i=ps+1; i<=pe; i++){ //O(N) in worst case- skewed tree
+//      if(preorder[i]>= preorder[ps]){
+//         break;
+//      }
+     
+//     }
+//     int numsOnLeft= i-ps-1;
+//     root->left= solve(preorder, ps+1, ps+numsOnLeft);
+//     root->right= solve(preorder, ps+numsOnLeft+1, pe);
+//     return root;
+// }
+
+//     TreeNode* bstFromPreorder(vector<int>& preorder) {
+//         return solve(preorder,0, preorder.size()-1);
+//     }
+
+//OPTIMAL
+//TC: O(n) as each element of preorder is processed exactly once.
+//SC: O(h) -recursion depth which can be O(LOGN) for balanced tree and O(N) for skewed tree
+TreeNode* solve(vector<int>& pre, int mini, int maxi, int& i){
+    if(i== pre.size() || pre[i]> maxi || pre[i]< mini){
+        return NULL;
+    }
+  TreeNode* root= new TreeNode(pre[i]);
+  i++;
+   root->left= solve(pre, mini, root->val, i);
+   root->right= solve(pre, root->val, maxi, i);
+   return root;
+}
+ TreeNode* bstFromPreorder(vector<int>& preorder){
+    int i=0;
+   return solve(preorder, INT_MIN, INT_MAX, i);
+ }
+};
