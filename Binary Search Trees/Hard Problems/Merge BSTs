@@ -1,0 +1,76 @@
+https://leetcode.com/problems/merge-bsts-to-create-single-bst/submissions/1744544440/
+
+class Solution {
+public:
+vector<int> arr;
+void validateBST(TreeNode* root){
+    if(root==NULL){
+        return;
+    }
+    validateBST(root->left);
+    arr.push_back(root->val);
+    validateBST(root->right);
+}
+
+TreeNode* helper(TreeNode* parent, unordered_map<int, TreeNode*>& mp){
+    if(parent==NULL){
+        return NULL;
+    }
+     if(parent->left!=NULL && mp.find(parent->left->val)!= mp.end()){
+            parent->left= mp[parent->left->val];
+            mp.erase(parent->left->val);
+            helper(parent->left, mp); //this is required because what if your left child is also a root of another subtree     2     1     4
+//                                             /  \     \     \
+//                                             1   3     4     5
+        }
+        if(parent->right!=NULL && mp.find(parent->right->val)!= mp.end()){
+            parent->right= mp[parent->right->val];
+            mp.erase(parent->right->val);
+            helper(parent->right, mp);
+        }
+        if(parent==NULL){
+            return NULL;
+        }
+        return parent;
+}    
+    TreeNode* canMerge(vector<TreeNode*>& trees) {
+        if(trees.size()==1){
+            return trees[0];
+        }
+        set<int> children;
+        for(int i=0; i< trees.size(); i++){
+            TreeNode* temp= trees[i];
+            if(temp->left){
+                children.insert(temp->left->val);
+            }
+            if(temp->right){
+                children.insert(temp->right->val);
+            }
+        }
+        TreeNode* parent=NULL; //root of the merge BST
+        for(int i=0; i<trees.size(); i++){
+            TreeNode* temp= trees[i];
+            if(children.find(temp->val)== children.end()){
+               parent=temp;
+               break;
+            }
+        }
+        unordered_map<int, TreeNode*> mp;
+        for(int i=0; i< trees.size(); i++){
+            TreeNode* temp= trees[i];
+            mp[temp->val]= temp;
+        }
+        helper(parent, mp);
+        if(mp.size()!=1){
+            return NULL;
+        }
+        arr.clear();
+        validateBST(parent);
+        for(int i=0; i<arr.size()-1; i++){
+            if(arr[i] >= arr[i+1]){
+                return NULL;
+            }
+        }
+        return parent;
+    }
+};
