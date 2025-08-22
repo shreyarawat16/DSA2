@@ -1,0 +1,30 @@
+https://leetcode.com/problems/two-sum-iv-input-is-a-bst/submissions/1744572735/
+
+class Solution {
+public:
+//TC: O(N) in best case and TC: O(N*N) in worst case, SC: O(N) set can store n elements
+    bool findTarget(TreeNode* root, int k) {
+       bool ans=false;
+       if(root==NULL) return ans;
+       unordered_set<int> st;  
+       queue<TreeNode*> q;
+       q.push(root);
+         while(!q.empty()){
+         TreeNode* node= q.front();
+          q.pop();
+         if(st.find(k- node->val) != st.end()){
+            ans= true;
+            break;
+          }
+          st.insert(node->val);  //O(1)  in best case of ordered set, O(N) in worst case
+          if(node->left){
+            q.push(node->left);
+          }
+          if(node->right){
+            q.push(node->right);
+          }
+    }
+      
+       return ans;
+    }
+};
