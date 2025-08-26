@@ -1,0 +1,25 @@
+https://leetcode.com/problems/recover-binary-search-tree/submissions/1748674850/
+
+
+class Solution {
+public:
+void solve(TreeNode* root, TreeNode*& prev ,TreeNode*& first, TreeNode* &second){
+    if(root==NULL){
+        return ;
+    }
+    solve(root->left, prev, first, second);
+    if(prev && prev->val > root->val){
+        if(first==NULL) first= prev;
+        second= root;
+    }
+    prev= root;
+    solve(root->right, prev, first, second);
+
+  }
+
+    void recoverTree(TreeNode* root) {
+        TreeNode* prev=NULL, *first=NULL, *second=NULL;
+        solve(root, prev, first, second);
+        swap(first->val, second->val);
+    }
+};
