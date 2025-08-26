@@ -1,0 +1,40 @@
+https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/submissions/1749076635/
+
+class Solution {
+public:
+ struct BSTPair{
+    int sum;
+    int largest;
+    int smallest;
+    BSTPair(int s=0, int l=INT_MIN, int sm=INT_MAX){
+        this->sum=s;
+        this->largest= l;
+        this->smallest= sm;
+    }
+ };
+ BSTPair helper(TreeNode* root, int& maxSum){
+    if(root==NULL){
+        return BSTPair(0,INT_MIN, INT_MAX);
+    }
+    BSTPair curr;
+    BSTPair l= helper(root->left, maxSum);
+    BSTPair r= helper(root->right, maxSum);
+    if(root->val > l.largest && root->val < r.smallest){
+        curr.sum= l.sum+ r.sum+ root->val;
+        curr.largest= max(root->val, r.largest);
+        curr.smallest= min(root->val, l.smallest);
+        maxSum= max(maxSum, curr.sum);
+    }
+    else{
+        curr.sum= 0;
+        curr.largest= INT_MAX;
+        curr.smallest= INT_MIN;
+    }
+    return curr;
+ }
+    int maxSumBST(TreeNode* root) {
+        int maxSum=0;
+    helper(root, maxSum);
+        return maxSum;
+    }
+};
