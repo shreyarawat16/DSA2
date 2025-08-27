@@ -1,0 +1,28 @@
+https://leetcode.com/problems/number-of-provinces/submissions/1750096900/
+
+class Solution {
+public:
+void DFS(int start, vector<vector<int>>& isConnected,vector<int>& vis){
+  vis[start]=1;
+  for(int i=0; i< isConnected.size(); i++){
+    if(i== start){
+        continue;
+    }
+    else if(isConnected[i][start]==1 && !vis[i]){
+        DFS(i, isConnected, vis);
+    }
+  }
+}
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int ans=0;
+        int n= isConnected.size();
+        vector<int> vis(n,0);
+        for(int i=0; i<n; i++){
+          if(!vis[i]){
+            ans++;
+            DFS(i, isConnected, vis);
+          }
+        }
+        return ans;
+    }
+};
