@@ -1,0 +1,47 @@
+https://leetcode.com/problems/count-the-number-of-complete-components/submissions/1750336756/
+
+class Solution {
+public:
+void DFS(int node, vector<vector<int>>& adjList, int n, vector<int>& vis, vector<int>& temp){
+    vis[node]=1;
+    temp.push_back(node);
+    for(auto it: adjList[node]){
+        if(!vis[it]){
+          DFS(it, adjList, n, vis, temp);
+        }
+    }
+}
+    int countCompleteComponents(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> adjList(n);
+        for(auto it: edges){
+            int u= it[0];
+            int v= it[1];
+            adjList[u].push_back(v);
+            adjList[v].push_back(u);
+        }
+        vector<int> vis(n,0);
+        vector<vector<int>> components;
+        for(int i=0; i<n; i++){
+           if(!vis[i]){
+            vector<int> temp;
+            DFS(i,adjList,n, vis, temp);
+            components.push_back(temp);
+          }
+        }
+        int count=0;
+        for(auto it: components){
+           int s= it.size();
+           bool flag=true;
+           for(auto node: it){
+            if(adjList[node].size() != s-1){
+                flag=false;
+                break;
+            }
+           }
+           if(flag== true){
+            count++;
+           }
+        }
+        return count;
+    }
+};
