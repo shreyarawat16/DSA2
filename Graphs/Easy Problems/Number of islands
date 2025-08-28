@@ -2,10 +2,11 @@ https://leetcode.com/problems/number-of-islands/submissions/1751064299/
 
 class Solution {
 public:
+//TC: O(N*M), SC: O(N*M + N*M) in worst case all cells are 1's= O(N*M)
     int numIslands(vector<vector<char>>& grid) {
         int n= grid.size();
         int m= grid[0].size();
-        vector<vector<int>> vis(n, vector<int>(m,0));
+        vector<vector<int>> vis(n, vector<int>(m,0)); //SC: O(N*M) worst case
         queue<pair<int,int>> q;
         int count=0;
         int dr[4]={-1,0,+1,0};
