@@ -1,0 +1,37 @@
+https://leetcode.com/problems/shortest-path-in-binary-matrix/submissions/1760219896/
+
+class Solution {
+public:
+//Shortest path= dijkstra = priority queue
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        int n= grid.size();
+        int m= grid[0].size();
+        if(grid[0][0]!=0){
+            return -1;
+        }
+        vector<vector<int>> dist(n, vector<int>(m,1e9));
+        dist[0][0]=0;
+        priority_queue< pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>>  > pq;
+        pq.push({1,{0,0}}); 
+        int dr[8]={-1,-1,-1,0,+1,+1,+1,0};
+        int dc[8]={-1,0,+1,+1,+1,0,-1,-1};
+        while(!pq.empty()){
+            int row= pq.top().second.first;
+            int col= pq.top().second.second;
+            int d= pq.top().first;
+            if(row==n-1 && col==m-1){
+                return d;
+            }
+            pq.pop();
+            for(int i=0; i<8; i++){
+             int nr= row+ dr[i];
+             int nc= col+ dc[i];
+             if(nr>=0 && nc>=0 && nr<n && nc<m && grid[nr][nc]==0 && 1+d< dist[nr][nc] ){
+                dist[nr][nc]=1+d;
+                pq.push({1+d,{nr,nc}});
+             }
+            }
+        }
+        return -1;
+    }
+};
