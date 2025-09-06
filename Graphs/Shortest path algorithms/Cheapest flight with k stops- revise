@@ -1,0 +1,42 @@
+https://leetcode.com/problems/cheapest-flights-within-k-stops/submissions/1761287707/
+
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        vector<vector<pair<int,int>>> adj(n);
+        for(auto it: flights){
+            int u= it[0];
+            int v= it[1];
+            int wt= it[2];
+            adj[u].push_back({v,wt});
+        }
+        vector<int> dist(n,1e9);
+        dist[src]=0;
+        priority_queue< pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>> > pq;
+        pq.push({0,{src,0}});
+        while(!pq.empty() ){
+            int stop= pq.top().first;
+            int node= pq.top().second.first;
+            int d= pq.top().second.second;
+            pq.pop();
+           
+            for(auto it: adj[node]){
+                int v= it.first;
+                int wt= it.second;
+               
+                if(d+ wt< dist[v] && stop<=k){
+                    dist[v]= d+wt;
+                    pq.push({ stop+1,{v,dist[v]}});
+                }
+                
+            }
+           
+        }
+        for(int i=0; i<n; i++){
+            if(dist[i]== 1e9){
+                dist[i]=-1;
+            }
+        }
+        return dist[dst];
+    }
+};
