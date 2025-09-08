@@ -1,0 +1,52 @@
+class DisjointSet {
+     vector<int> Rank;
+    
+     vector<int> par;
+public:
+    DisjointSet(int n) {
+     Rank.resize(n,0);
+     size.resize(n,1);
+     par.resize(n,0);
+      for(int i=0; i<n; i++){
+        par[i]=i;
+      }
+    }
+int findParent(int u){
+    if(par[u]==u){
+        return u;
+    }
+  return findParent(par[u]);
+}
+    bool find(int u, int v) {
+      int pu= findParent(u);
+       int pv= findParent(v);
+       if(pu== pv){
+        return true;
+       }
+       else{
+        return false;
+       }
+    }
+
+    void unionByRank(int u, int v) {
+      int pu= findParent(u);
+      int pv=findParent(v);
+      if(pu==pv){
+        return; //u,v belong to same component
+      }
+      if(Rank[pu]== Rank[pv]){
+          par[pu]=pv;
+          Rank[pv]++;
+      }
+      else if(Rank[pu]> Rank[pv]){
+          par[pv]= pu;
+          
+      }
+      else if(Rank[pu]< Rank[pv]){
+        par[pu]= pv;
+       
+      }
+    }
+
+   
+};
