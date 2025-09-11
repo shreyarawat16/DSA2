@@ -1,0 +1,51 @@
+https://leetcode.com/problems/move-zeroes/submissions/1767520922/
+
+class Solution {
+public:
+// BRUTE TC- O(2N), SC: O(N)
+    void moveZeroes(vector<int>& nums) {
+        // int n= nums.size();
+        // vector<int> arr(n,0);
+        // int ind=0;
+        
+        // for(int i=0; i<nums.size(); i++){ //O(N)
+        //     if(nums[i]!=0){
+               
+        //         arr[ind]=nums[i];
+        //         ind++;
+        //     }
+        // }
+        
+        // int j=0;
+        // for(int i=0; i<nums.size(); i++){  //O(N)
+        //     nums[i] = arr[j++];
+        // }
+
+        //, TC: O(N*N), SC: O(1)
+        //  int n= nums.size();
+        //  int cnt=0;
+        //  for(int i=0; i<n; i++){
+        //     if(nums[i]==0){
+        //         cnt++;
+        //     }
+        //  }
+        //  while(cnt>0){
+        //   for(int i=0; i<n-1; i++){
+        //      if(nums[i]==0){
+        //         swap(nums[i], nums[i+1]);
+                
+        //      }   
+        //   }
+        //   cnt--;
+        //  }
+
+//OPTIMAL-> THINK OF MOVING NON ZEROS TO FRONT
+        int j=0;
+        for(int i=0; i<nums.size(); i++){
+            if(nums[i]!=0){
+                swap(nums[i], nums[j]);
+                j++;
+            }
+        }
+    }
+};
