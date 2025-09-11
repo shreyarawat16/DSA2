@@ -1,0 +1,36 @@
+https://leetcode.com/problems/missing-number/submissions/1767565281/
+
+class Solution {
+public:
+
+    int missingNumber(vector<int>& nums) {
+        //BRUTE
+        //TC, avg case-> O(N*1+N*1) , worst case-> O(N*N + N*N)=N*N
+       //SC: O(N) map is used to store n elements
+        int n= nums.size();
+        // unordered_map<int,int> mp;
+        // for(int i=0; i<n; i++){
+        //     mp[nums[i]]++;
+        // }
+        // for(int i=0; i<=n; i++){
+        //     if(mp.find(i)== mp.end()){
+        //         return i;
+        //     }
+        // }
+        // return -1;
+        //OPTIMAL
+        // int s1=0, s2=n*(n+1)/2;
+        // for(int i=0; i<n; i++){
+        //     s1+= nums[i];
+        // }
+        // return s2-s1;
+       //XOR method
+       int xor1=0, xor2=0;
+       for(int i=1; i<=n; i++){
+        xor1=xor1^i;
+        xor2=xor2^ nums[i-1];
+       }
+       
+       return xor1^xor2;
+    }
+};
