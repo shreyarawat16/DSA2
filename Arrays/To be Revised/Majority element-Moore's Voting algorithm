@@ -1,0 +1,38 @@
+https://leetcode.com/problems/majority-element/submissions/1768341031/
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        //BRUTE
+        //TC: O(N8N+M) where M= size of map
+        // int n= nums.size();
+        // unordered_map<int,int> mp;
+        // for(int i=0; i<n; i++){
+        //     mp[nums[i]]++;
+        // }
+        // for(auto it:mp){
+        //     if(it.second > n/2){
+        //         return it.first;
+        //     }
+        // }
+        // return -1;
+         
+        //OPTIMAL TC: O(N), SC: O(1)
+        int ele= nums[0];
+        int cnt=1;
+        for(int i=1; i<nums.size(); i++){
+            if(nums[i]==ele){
+                cnt++;
+            }
+            else if(nums[i]!= ele){
+                cnt--;
+                if(cnt==0){
+                    ele= nums[i];
+                    cnt=1;
+               }
+            }
+          
+        }
+        return ele;
+    }
+};
