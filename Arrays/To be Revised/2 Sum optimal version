@@ -1,0 +1,42 @@
+https://leetcode.com/problems/two-sum/submissions/1768294470/
+
+class Solution {
+public:
+// static bool cmp(pair<int,int>& a, pair<int,int>& b){
+//     return a.first < b.first;
+// }
+    vector<int> twoSum(vector<int>& nums, int target) {
+        //TC: O(N+NLOGN+N)
+        // vector<pair<int,int>> v;
+        // for(int i=0; i<nums.size(); i++){
+        //     v.push_back({nums[i],i});
+        // }
+        // sort(v.begin(), v.end(), cmp);
+        // int i=0, j= v.size()-1;
+        // while(i<j){
+        //   int sum= v[i].first+ v[j].first;
+        //   if(sum> target){
+        //     j--;
+        //   }
+        //   else if(sum< target){
+        //     i++;
+        //   }
+        //   else{
+        //     return {v[i].second, v[j].second};
+        //   }
+        // }
+        // return {-1,-1};
+
+        //OPTIMAL
+        unordered_map<int,int> mp;
+        int n= nums.size();
+        for(int i=0; i<n; i++){
+            int newTarget= target-nums[i];
+            if(mp.find(newTarget)!= mp.end()){
+               return {mp[newTarget], i};
+            }
+            mp[nums[i]]=i;
+        }
+        return {-1,-1};
+    }
+};
