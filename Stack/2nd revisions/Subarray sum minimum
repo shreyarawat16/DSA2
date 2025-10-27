@@ -1,0 +1,52 @@
+https://leetcode.com/submissions/detail/1812147503/
+
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        //OPTIMAL
+        int n= arr.size();
+        vector<int> right(n,n);
+        vector<int> left(n,-1);
+        long long sum=0;
+        stack<int> st;
+        //next smaller to the left
+        for(int i=0; i<n; i++){
+           while(!st.empty() && arr[st.top()]> arr[i]){
+            st.pop();
+           }
+           if(!st.empty()){
+             left[i]= st.top();
+           }
+           st.push(i);
+        }
+        //next smaller to the right
+        stack<int> st1;
+        for(int i=n-1; i>=0; i--){
+            while(!st1.empty() && arr[st1.top()] >= arr[i]){
+               st1.pop();
+            }
+            if(!st1.empty()){
+                right[i]= st1.top();
+            }
+            st1.push(i);
+        }
+        int mod= 1e9+7;
+        for(int i=0; i<n; i++){
+            sum = (sum+ (long long)arr[i]*(right[i]-i)*(i-left[i])%mod)%mod;
+        }
+        return (int)sum;
+        //BRUTE FORCE
+        // int n= arr.size();
+        // int sum=0;
+        // for(int i=0; i<n; i++){
+        //     int mini= arr[i];
+        //     for(int j=i; j< n; j++){
+        //        mini= min(mini, arr[j]);
+        //        sum+= mini;
+        //     }
+        // }
+        // return sum;
+    }
+
+
+};
