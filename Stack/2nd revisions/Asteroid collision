@@ -1,0 +1,38 @@
+https://leetcode.com/submissions/detail/1812242908/
+
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        int n= asteroids.size();
+        stack<int> st;
+        for(int i=0; i<n; i++){
+            bool flag= true;
+            while(!st.empty() && asteroids[i]<0 && st.top()>0){
+                int diff= asteroids[i]+ st.top();
+                if(diff>0){
+                    flag= false;
+                    break;
+                }
+                else if(diff<0){
+                    //asteroid won
+                    st.pop();
+                }
+                else{
+                    st.pop();
+                    flag= false;
+                    break;
+                }
+            }
+            if(flag==true){
+              st.push(asteroids[i]);
+            }
+        }
+        vector<int> ans;
+        while(!st.empty()){
+        ans.push_back(st.top());
+        st.pop();
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+    }
+};
