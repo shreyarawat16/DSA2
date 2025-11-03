@@ -1,0 +1,45 @@
+https://leetcode.com/problems/sliding-window-maximum/submissions/1819895531/
+
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+         //TC: O(2N)-> N for traversal & N for pushing popping elements in dq
+         //SC: O(K)+ O(N-K)-> k elements in queue at max+ vector ans me N-K elements honge
+        int n= nums.size();
+      
+        vector<int> ans;
+        if(n<k){
+            return ans;
+        }
+        if(k==1 && n==1 ){
+            return nums;
+        }
+        
+        
+        deque<int> dq;
+       for(int i=0; i<n; i++){  //O(N)
+        if(!dq.empty() && dq.front()<=i-k){
+            dq.pop_front();
+        }
+        while(!dq.empty() && nums[i]> nums[dq.back()]){
+            dq.pop_back();
+        }
+         dq.push_back(i);
+         if(i>=k-1){
+            ans.push_back(nums[dq.front()]);
+         }
+       }
+       return ans;
+    }
+    //    ///Brute force
+    //TC: O(N-K)*K, SC: O(N-K) because we are storing maxi in ans n-k times
+    //    for(int i=0; i<=n-k; i++){
+    //     int maxi= nums[i];
+    //     for(int j=i; j<= i+k-1; j++){
+    //        maxi= max(maxi, nums[j]);
+    //     }
+    //     ans.push_back(maxi);
+    //    }
+    //    return ans;
+    // }
+};
