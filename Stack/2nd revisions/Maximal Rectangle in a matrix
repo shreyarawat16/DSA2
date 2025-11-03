@@ -1,0 +1,55 @@
+https://leetcode.com/problems/maximal-rectangle/submissions/1819371145/
+
+class Solution {
+public:
+int helper(vector<int>& arr){
+       int n= arr.size();
+       vector<int> left(n,-1), right(n,n);
+       //nse on right
+       stack<int> st;
+       for(int i=n-1; i>=0; i--){
+         while(!st.empty() && arr[st.top()]>= arr[i] ){
+           st.pop();
+         }
+         if(!st.empty()){
+            right[i]= st.top();
+         }
+         st.push(i);
+       }
+       //ns on left
+        stack<int> st1;
+       for(int i=0; i<n; i++){
+         while(!st1.empty() && arr[st1.top()]> arr[i] ){
+           st1.pop();
+         }
+         if(!st1.empty()){
+            left[i]= st1.top();
+         }
+         st1.push(i);
+       }
+       int maxi=0;
+       for(int i=0; i<n; i++){
+        int width= right[i]-left[i]-1;
+        int area= arr[i]*width;
+        maxi= max(maxi, area);
+       }
+       return maxi;
+}
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int n= matrix.size(), m= matrix[0].size();
+        vector<int> heights(m,0);
+        int maxi=0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+               if(matrix[i][j]=='1'){
+                 heights[j]=1+ heights[j];
+               }
+               else{
+                heights[j]=0;
+               }
+            }
+            maxi=max(maxi,helper(heights));
+        }
+        return maxi;
+    }
+};
