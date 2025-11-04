@@ -1,0 +1,50 @@
+https://leetcode.com/problems/online-stock-span/submissions/1820431448/
+
+class StockSpanner {
+public:
+ stack<int> st;
+ vector<int> arr;
+    StockSpanner() {
+        
+    }
+    
+    int next(int price) {
+        //OPTIMAL TC: O(2N), SC: O(N) -> at max my stack will store all the elements
+        arr.push_back(price);
+        int ind= arr.size()-1;
+       
+        //nge to left
+       int ans;
+        while(!st.empty() && arr[st.top()]<= arr[ind]){
+            st.pop();
+        }
+        if(!st.empty()){
+            ans= ind-st.top();
+        }
+        else{
+            ans= ind+1;
+        }
+        st.push(ind);
+        return ans;
+        
+        //BRUTE TC:O(no. of days), SC: O(no. of next calls)
+        // arr.push_back(price);
+        // int n= arr.size();
+        // int cnt=1;
+        // for(int i=n-2; i>=0; i--){
+        //     if(arr[i]<= price){
+        //         cnt++;
+        //     }
+        //     else{
+        //         break;
+        //     }
+        // }
+        // return cnt;
+    }
+};
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner* obj = new StockSpanner();
+ * int param_1 = obj->next(price);
+ */
