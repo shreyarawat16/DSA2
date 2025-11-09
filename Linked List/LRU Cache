@@ -1,0 +1,87 @@
+https://leetcode.com/problems/lru-cache/submissions/1824849951/
+
+class Node{
+    public:
+    int key;
+    int val;
+    Node* next;
+    Node* prev;
+    public:
+    Node(int k, int v){
+         key=k;
+         val=v;
+         next=NULL;
+         prev=NULL;
+    }
+};
+class LRUCache {
+    int capacity;
+    Node* head= new Node(0,0);
+    Node* tail= new Node(0,0);
+    unordered_map<int, Node*> mp;
+public:
+
+    LRUCache(int capacity) {
+       this->capacity= capacity;
+       mp.clear();
+       head->next= tail;
+       tail->prev=head;
+    }
+    void removeNode(Node* node){ //TC: O(1) only link change
+         // Remove node from its current position
+         Node* prevNode = node->prev;
+        Node* nextNode = node->next;
+        prevNode->next = nextNode;
+        nextNode->prev = prevNode;
+    }
+    
+
+    void insertAfterHead(Node* node) { //TC: O(1)
+        Node* afterHeadNode= head->next;
+        head->next=node;
+        node->next= afterHeadNode;
+        afterHeadNode->prev= node;
+        node->prev=head;
+    }
+
+    int get(int key) { //TC: O(1) best case for unordered map
+        
+        if(mp.find(key)!= mp.end()){
+         Node* node= mp[key];
+         removeNode(node);
+         insertAfterHead(node);
+         return node->val;
+       }
+       
+       return -1;
+    }
+    
+    void put(int key, int value) { //TC: O(1)
+        
+        if(mp.find(key)!= mp.end()){
+           Node* node= mp[key];
+           node->val= value;
+           removeNode(node);
+           insertAfterHead(node);
+        }
+        else{
+            if(mp.size()>=capacity){
+                Node* node= tail->prev;
+                removeNode(node);
+                mp.erase(node->key);
+               
+            }
+            Node* newNode= new Node(key,value);
+            mp[key]=newNode;
+            insertAfterHead(newNode);
+        }
+
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
