@@ -1,0 +1,38 @@
+https://leetcode.com/problems/combination-sum-ii/?source=submission-ac
+
+class Solution {
+public:
+//TC: O(2^N *K)
+
+void solve(int i, int k,vector<int>& temp,vector<vector<int>>& ans, vector<int> arr ){
+            if(k==0){
+                ans.push_back(temp);
+                return;
+            }
+            if(i== arr.size() || k<0){
+                return;
+            }
+           if(arr[i]<=k){
+            //include
+            temp.push_back(arr[i]);
+            solve(i+1, k-arr[i], temp, ans, arr);
+            temp.pop_back();
+             //skip
+             while(i< arr.size()-1 && arr[i]== arr[i+1]){
+                i++;
+            }
+           }
+            
+            //exclude
+            solve(i+1, k, temp, ans, arr);
+            
+        }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<int> temp;
+        vector<vector<int>> ans;
+        int i=0;
+        sort(candidates.begin(), candidates.end());
+        solve(i, target,temp, ans, candidates);
+        return ans;
+    }
+};
