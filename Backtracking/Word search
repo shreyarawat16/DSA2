@@ -1,0 +1,44 @@
+https://leetcode.com/problems/word-search/submissions/
+
+class Solution {
+public:
+bool solve(int i, vector<vector<char>>& board, string& word,vector<vector<int>>& vis, int row, int col, int dr[], int dc[], int n, int m){
+     if(i== word.size()){
+        return true;
+     }
+     if(row<0 || col<0 || row>=n || col>=m || board[row][col]!= word[i] || vis[row][col]){
+        return false;
+     }
+     vis[row][col]=1;
+     for(int j=0; j<4; j++){
+        int nr= row+dr[j];
+        int nc=col+dc[j];
+        
+          if(solve(i+1, board, word, vis,nr, nc, dr,dc,n,m)==true){
+            return true;
+          }
+        
+     }
+     vis[row][col]=0;
+     return false;
+}
+    bool exist(vector<vector<char>>& board, string word) {
+        int n= board.size();
+        int m= board[0].size();
+        vector<vector<int>> vis(n, vector<int>(m,0));
+        int dr[4]={-1,0,+1,0};
+        int dc[4]={0,+1,0,-1};
+        
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                if( board[i][j]== word[0] ){
+                    
+                    if(solve(0, board, word,vis,i, j, dr, dc,n,m)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+};
