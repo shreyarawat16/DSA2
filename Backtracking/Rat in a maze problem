@@ -1,0 +1,36 @@
+https://www.naukri.com/code360/problems/rat-in-a-maze-_8842357?leftPanelTabValue=SUBMISSION
+
+
+void dfs(int row, int col,vector<vector<int>> &mat,
+ vector<vector<int>> &vis, string temp, vector<string>& ans,
+ int n, int m ){
+   if(row== n-1 && col== m-1){
+       ans.push_back(temp);
+       return;
+   }
+   vis[row][col]=1;
+   int dr[4]={-1,0,+1,0};
+   int dc[4]={0,+1,0,-1};
+   char dir[]={'U', 'R', 'D', 'L'};
+   for(int i=0; i<4; i++){
+     int nr= row+ dr[i];
+     int nc= col+ dc[i];
+     if(nr>=0 && nr<n && nc>=0 && nc<m && !vis[nr][nc]
+     && mat[nr][nc]==1){
+         temp+= dir[i];
+         dfs(nr, nc, mat, vis, temp, ans,n,m);
+         temp.pop_back();
+         vis[nr][nc]=0;
+     }
+   }
+ }
+vector<string> ratMaze(vector<vector<int>> &mat) {
+    // Write your code here.
+    int n= mat.size(), m= mat[0].size();
+    vector<vector<int>> vis(n, vector<int>(m,0));
+    vector<string> ans;
+    string temp="";
+    
+    dfs(0,0,mat,vis,temp,ans,n,m);
+    return ans;
+}
